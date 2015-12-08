@@ -265,13 +265,14 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
                         //pass all important info
                         //pick up day/drop off day
                         //rental length
-
                         //how many hours
                         int rentalHours = rentalHours(difference,pickHour,dropOffHour);
                         System.out.println("rentalHours" + rentalHours);
 
                         Bundle extraInfo = new Bundle();
-                        extraInfo.putDouble("rentalHours", rentalHours);
+                        extraInfo.putInt("rentalHours", rentalHours);
+                        extraInfo.putInt("pickUpDayOfYear", pulledPickUpDayOfYear);
+                        extraInfo.putInt("dropOffDayOfYear", dayNumber);
                         //extraInfo.putString("result2", input2);
                         I.putExtras(extraInfo);
 

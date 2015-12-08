@@ -27,6 +27,19 @@ public class BookResults extends Activity implements View.OnClickListener {
        //View LoginButton = findViewById(R.id.login_button);
         //LoginButton.setOnClickListener(this);
 
+        System.out.println("Results: Passed info");
+
+        //get passed info
+        Bundle passedExtras = getIntent().getExtras();
+        int rentalHours = passedExtras.getInt("rentalHours");
+        int pickUpDayOfYear = passedExtras.getInt("pickUpDayOfYear");
+        int dropOffDayOfYear= passedExtras.getInt("dropOffDayOfYear");
+        String loggedUsername = passedExtras.getString("username");
+        int loggedId = passedExtras.getInt("id");
+
+        System.out.println("Passed: rentalHours" + rentalHours + " puDay: " + pickUpDayOfYear + " dropoff: "
+                + dropOffDayOfYear + "user: " + loggedUsername + " id: " + loggedId);
+
     }
 
     @Override
@@ -51,10 +64,7 @@ public class BookResults extends Activity implements View.OnClickListener {
         return super.onOptionsItemSelected(item);
     }
 
-    String input1;
-    String input2;
-    EditText cinput1;
-    EditText cinput2;
+
 
     public void onClick(View v) {
 

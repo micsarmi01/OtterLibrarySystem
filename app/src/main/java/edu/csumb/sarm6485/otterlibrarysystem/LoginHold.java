@@ -64,6 +64,8 @@ public class LoginHold extends Activity implements View.OnClickListener {
         cinput2 = (EditText) findViewById(R.id.password_field);
         input2 = cinput2.getText().toString();
 
+        User loggedUser = null;
+
         if (v.getId() == R.id.login_button) {
 
             if(checkFormat(input1)&&checkFormat(input2)) {
@@ -82,11 +84,15 @@ public class LoginHold extends Activity implements View.OnClickListener {
                         contains=true;
                         if(contains){
                             System.out.println("Contains==True");
+                            loggedUser = new User(users.get(i));
                             break;
                         }
                     }
 
                 }
+
+                final int loggedId = loggedUser.getId();
+                final String loggedUsername = loggedUser.getUsername();
 
                 if(contains) {
                     AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
@@ -96,6 +102,22 @@ public class LoginHold extends Activity implements View.OnClickListener {
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent I = new Intent(getApplicationContext(), BookResults.class);
+
+                                    //get passed info
+                                    Bundle passedExtras = getIntent().getExtras();
+                                    int rentalHours = passedExtras.getInt("rentalHours");
+                                    int pickUpDayOfYear = passedExtras.getInt("pickUpDayOfYear");
+                                    int dropOffDayOfYear= passedExtras.getInt("dropOffDayOfYear");
+
+                                    //pass stuff to results
+                                    Bundle extraInfo = new Bundle();
+                                    extraInfo.putInt("rentalHours", rentalHours);
+                                    extraInfo.putInt("pickUpDayOfYear", pickUpDayOfYear);
+                                    extraInfo.putInt("dropOffDayOfYear", dropOffDayOfYear);
+                                    extraInfo.putString("username", loggedUsername );
+                                    extraInfo.putInt("id", loggedId);
+                                    I.putExtras(extraInfo);
+
                                     startActivity(I);
                                 }
                             });

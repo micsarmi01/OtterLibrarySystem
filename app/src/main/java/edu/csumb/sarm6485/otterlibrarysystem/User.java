@@ -7,8 +7,14 @@ public class User {
     private String password;
     private String username;
     private int id;
+
     public User(){
 
+    }
+
+    public User(User user){
+        this.username = user.getUsername();
+        this.id = user.getId();
     }
 
     public User(String password, String username){
