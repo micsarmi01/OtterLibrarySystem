@@ -13,12 +13,12 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class ManageSystem extends Activity implements View.OnClickListener {
+public class AddBook extends Activity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.managesystem);
+        setContentView(R.layout.addbook);
 
         View addBookButton = findViewById(R.id.addbook_button);
         addBookButton.setOnClickListener(this);
@@ -51,7 +51,7 @@ public class ManageSystem extends Activity implements View.OnClickListener {
 
 
         if (v.getId() == R.id.addbook_button) {
-            Intent I = new Intent(getApplicationContext(), AddBook.class);
+            Intent I = new Intent(getApplicationContext(), CreateClass.class);
             startActivity(I);
         }
 
