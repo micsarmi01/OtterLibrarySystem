@@ -1,6 +1,8 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -28,7 +30,7 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dropoff);
 
-        View chooseButton = findViewById(R.id.choosedate_button);
+        View chooseButton = findViewById(R.id.choosedatedrop_button);
         chooseButton.setOnClickListener(this);
 
         ampm[0] = "AM";
@@ -198,7 +200,7 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
         Spinner ampmSpinner = (Spinner) findViewById(R.id.ampm_spinner);
 
 
-        if (v.getId() == R.id.choosedate_button) {
+        if (v.getId() == R.id.choosedatedrop_button) {
 
 
 
@@ -214,9 +216,7 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
             System.out.println("Drop Off Hour: " + dropOffHour);
 
 
-
             Date date = new Date(month, day, year);
-
             int dayNumber = date.getDayNumber();
 
             //pull from class placehold
@@ -226,6 +226,10 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
             String pulledPickUpHour = extrasPlaceHold.getString("pickUpHour");
             String pulledPickUpAmPm = extrasPlaceHold.getString("pickUpAmPm");
 
+            //get pick up time
+            Time pickTime = new Time(pulledPickUpHour,pulledPickUpAmPm);
+            int pickHour = pickTime.getHour();
+            System.out.println("Pick up Hour: " + pickHour);
             //compare date numbers if the number dif is greater than 7 days prompt user to choose
             //new date
 
@@ -235,20 +239,96 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
             int currentYear = calendar.get(Calendar.YEAR);
 
             //
-            if(pulledPickUpDayOfYear<359&&!(year.equals("2016"))){
+            if(pulledPickUpDayOfYear<359&&!(year.equals("2016"))) {
                 int difference = dayNumber - pulledPickUpDayOfYear;
-                System.out.println("This is the difference: " + difference);
+                System.out.println("choice This is the difference: " + difference);
                 //if the days difference is 7 and hours chosen is greater or past the hours chosen OT
-                if(difference<=7&&difference>0){
-                    //check if time is past the time
+                if (difference <= 7 && difference > 0) {
+                    //check if drop time exceeds the 24 hour mark for 7day
+                    if (dropOffHour > pickHour && difference == 7) {
+                        System.out.println("choice 7day Rental exceeds time: " + (dropOffHour - pickHour));
+                        AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+                        dlgAlert.setMessage("Sorry, The Chosen Time puts you past the 7 day limit by " + (dropOffHour - pickHour) + " hours." );
+                        dlgAlert.setTitle("Otter Library System");
+                        dlgAlert.setPositiveButton("OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                });
+                        dlgAlert.setCancelable(true);
+                        dlgAlert.create().show();
+                    } else {
+                        //if difference and time are good go to bookResults
+                        Intent I = new Intent(getApplicationContext(), LoginHold.class);
+
+
+                        //pass all important info
+                        //pick up day/drop off day
+                        //rental length
+
+                        //how many hours
+                        int rentalHours = rentalHours(difference,pickHour,dropOffHour);
+                        System.out.println("rentalHours" + rentalHours);
+
+                        Bundle extraInfo = new Bundle();
+                        extraInfo.putDouble("rentalHours", rentalHours);
+                        //extraInfo.putString("result2", input2);
+                        I.putExtras(extraInfo);
+
+                        startActivity(I);
+
+                    }
+                }
+                else if(difference>7){
+                    System.out.println("choice Rental exceeds time frame");
+
+                    AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+                    dlgAlert.setMessage("Sorry, The Chosen Date puts you past the 7 day limit by " + difference + " days." );
+                    dlgAlert.setTitle("Otter Library System");
+                    dlgAlert.setPositiveButton("OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+                    dlgAlert.setCancelable(true);
+                    dlgAlert.create().show();
+                }
+                else if(difference<0){
+                    System.out.println("choice Rental is before pick up date");
+                    AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+                    dlgAlert.setMessage("Sorry, The Chosen Date is before the pick up date" );
+                    dlgAlert.setTitle("Otter Library System");
+                    dlgAlert.setPositiveButton("OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+                    dlgAlert.setCancelable(true);
+                    dlgAlert.create().show();
                 }
             }
+            //for dates past 360 day
+            else{
+                System.out.println("choice is past dec 24");
+                AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+                dlgAlert.setMessage(" Test for date after 24" );
+                dlgAlert.setTitle("Otter Library System");
+                dlgAlert.setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+                dlgAlert.setCancelable(true);
+                dlgAlert.create().show();
+            }
+
 
 
 
             //number renthours passed for rental cost days + time
 
-            Intent I = new Intent(getApplicationContext(), DropOff.class);
+            /*
+            Intent I = new Intent(getApplicationContext(), BookResults.class);
             Bundle extraInfo = new Bundle();
             extraInfo.putString("pickUpMonth", month);
             extraInfo.putString("pickUpDay", day);
@@ -256,8 +336,30 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
             extraInfo.putString("pickUpHour", hour);
             extraInfo.putString("pickUpAmPm", ampm);
             I.putExtras(extraInfo);
-            startActivity(I);
+            startActivity(I);*/
         }
 
     }
+
+    public int rentalHours(int differnce, int hourPick, int hourDrop){
+        int hours=0;
+        int hourDiffernce;
+
+        //
+        hours=differnce*24;
+
+        //subtract hours if the pickup is later than drop off
+        if(hourPick>hourDrop){
+             hourDiffernce = hourPick-hourDrop;
+             hours-=hourDiffernce;
+        }
+        //add hours if the pickup is earlier than drop off
+        else if(hourPick<hourDrop){
+             hourDiffernce = hourDrop-hourPick;
+             hours+=hourDiffernce;
+        }
+
+        return hours;
+    }
+
 }

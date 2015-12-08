@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Login extends Activity implements View.OnClickListener {
+public class LoginHold extends Activity implements View.OnClickListener {
 
     // create a database for the app
     MySQLiteHelper db = new MySQLiteHelper(this);
@@ -78,6 +78,7 @@ public class Login extends Activity implements View.OnClickListener {
                 for(int i=0; i<users.size();i++){
 
                     if(users.get(i).getUsername().equals(input1) && user.getPassword().equals(input2)){
+
                         contains=true;
                         if(contains){
                             System.out.println("Contains==True");
@@ -94,8 +95,21 @@ public class Login extends Activity implements View.OnClickListener {
                     dlgAlert.setPositiveButton("OK",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent I = new Intent(getApplicationContext(), PlaceHold.class);
+                                    Intent I = new Intent(getApplicationContext(), BookResults.class);
                                     startActivity(I);
+                                }
+                            });
+                    dlgAlert.setCancelable(true);
+                    dlgAlert.create().show();
+                }
+                if(!contains) {
+                    AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+                    dlgAlert.setMessage("Sorry The Account Does Not Exist or Passowrd Is Incorrect.");
+                    dlgAlert.setTitle("Otter Library System");
+                    dlgAlert.setPositiveButton("OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
                                 }
                             });
                     dlgAlert.setCancelable(true);
@@ -109,8 +123,7 @@ public class Login extends Activity implements View.OnClickListener {
                 dlgAlert.setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent I = new Intent(getApplicationContext(), Login.class);
-                                startActivity(I);
+
                             }
                         });
                 dlgAlert.setCancelable(true);

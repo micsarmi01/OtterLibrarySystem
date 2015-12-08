@@ -1,27 +1,31 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class BookResults extends Activity implements View.OnClickListener {
 
 
-public class MainActivity extends Activity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.bookresults);
 
-        View CreateButton = findViewById(R.id.createaccount_button);
-        CreateButton.setOnClickListener(this);
-
-        View HoldButton = findViewById(R.id.placehold_button);
-        HoldButton.setOnClickListener(this);
-
-
+       //View LoginButton = findViewById(R.id.login_button);
+        //LoginButton.setOnClickListener(this);
 
     }
 
@@ -47,18 +51,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
         return super.onOptionsItemSelected(item);
     }
 
+    String input1;
+    String input2;
+    EditText cinput1;
+    EditText cinput2;
+
     public void onClick(View v) {
 
-
-        if (v.getId() == R.id.createaccount_button) {
-            Intent I = new Intent(getApplicationContext(), CreateClass.class);
-            startActivity(I);
-        }
-        else if (v.getId() == R.id.placehold_button) {
-            Intent I = new Intent(getApplicationContext(),PlaceHold.class);
-            startActivity(I);
-        }
-
     }
+
 
 }
