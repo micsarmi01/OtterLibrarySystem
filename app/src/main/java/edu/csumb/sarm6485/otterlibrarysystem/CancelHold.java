@@ -7,8 +7,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+
 
 public class CancelHold extends Activity implements View.OnClickListener {
+
+    // create a database for the app
+    MySQLiteHelper db = new MySQLiteHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +51,33 @@ public class CancelHold extends Activity implements View.OnClickListener {
 
     public void onClick(View v) {
 
+        int bookToCancel = 1;
+        int pickUpDay = 346;
+        int dropDay = 347;
 
-        if (v.getId() == R.id.createaccount_button) {
-            Intent I = new Intent(getApplicationContext(), CreateClass.class);
-            startActivity(I);
+
+        if (v.getId() == R.id.cancel) {
+
+            ArrayList<Book> books = new ArrayList<>(db.getAllBooks());
+
+            for(int i=0; i<books.size();i++){
+                if(books.get(i).getId()==bookToCancel){
+                    String[] fifteen;
+                    fifteen = books.get(i).getFifteen();
+
+                    System.out.println("Canceling This Title: " + books.get(i).getTitle());
+                    for(int j=pickUpDay; j<dropDay+1;j++){
+                        fifteen[j] = "0";
+                    }
+
+                    books.get(i).setFifteen(fifteen);
+                    books.get(i).setFifteenString(fifteen);
+
+                    db.updateBook(books.get(i));
+                }
+            }
+
+
         }
 
     }

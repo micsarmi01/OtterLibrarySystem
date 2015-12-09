@@ -30,7 +30,7 @@ public class Inventory extends Activity implements View.OnClickListener {
         ArrayList<Book> books = new ArrayList<>(db.getAllBooks());
 
         for(Book book: books){
-            main.append(book.toString());
+            main.append(book.toString()+" \n");
         }
 
         db.getAllBooks();

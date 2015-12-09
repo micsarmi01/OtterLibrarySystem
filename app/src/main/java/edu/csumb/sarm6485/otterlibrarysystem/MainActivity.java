@@ -21,6 +21,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         View HoldButton = findViewById(R.id.placehold_button);
         HoldButton.setOnClickListener(this);
 
+        View cancelButton = findViewById(R.id.cancelhold_button);
+        cancelButton.setOnClickListener(this);
+
+
         View manageButton = findViewById(R.id.managesystem_button);
         manageButton.setOnClickListener(this);
 
@@ -57,6 +61,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
         else if (v.getId() == R.id.placehold_button) {
             Intent I = new Intent(getApplicationContext(),PlaceHold.class);
+            startActivity(I);
+        }
+        else if (v.getId() == R.id.cancelhold_button) {
+            Intent I = new Intent(getApplicationContext(),CancelHold.class);
             startActivity(I);
         }
         else if (v.getId() == R.id.managesystem_button) {
