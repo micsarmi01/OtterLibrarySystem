@@ -222,6 +222,7 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
             //pull from class placehold
             Bundle extrasPlaceHold = getIntent().getExtras();
             String pulledYear = extrasPlaceHold.getString("pickUpYear");
+            System.out.println("pickUpYear" + pulledYear);
             int pulledPickUpDayOfYear = extrasPlaceHold.getInt("pickUpDayOfYear");
             String pulledPickUpHour = extrasPlaceHold.getString("pickUpHour");
             String pulledPickUpAmPm = extrasPlaceHold.getString("pickUpAmPm");
@@ -258,6 +259,8 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
                         dlgAlert.setCancelable(true);
                         dlgAlert.create().show();
                     } else {
+                        System.out.println("choice This is the difference: you are in success " + difference);
+
                         //if difference and time are good go to bookResults
                         Intent I = new Intent(getApplicationContext(), LoginHold.class);
 
@@ -273,6 +276,10 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
                         extraInfo.putInt("rentalHours", rentalHours);
                         extraInfo.putInt("pickUpDayOfYear", pulledPickUpDayOfYear);
                         extraInfo.putInt("dropOffDayOfYear", dayNumber);
+                        extraInfo.putString("pickUpYear", pulledYear);
+                        System.out.println("pickUpYear " + pulledYear);
+                        extraInfo.putString("dropOffYear", year);
+                        System.out.println("dropOffYear " + year);
                         //extraInfo.putString("result2", input2);
                         I.putExtras(extraInfo);
 

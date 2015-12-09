@@ -231,8 +231,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return users;
     }
 
-
-
     // Deleting single book
     public void deleteUser(User user) {
 

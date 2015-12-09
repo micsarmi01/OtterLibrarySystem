@@ -16,7 +16,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BookResults extends Activity implements View.OnClickListener {
-
+    // create a database for the app
+    MySQLiteHelper db = new MySQLiteHelper(this);
 
 
     @Override
@@ -29,6 +30,7 @@ public class BookResults extends Activity implements View.OnClickListener {
 
         System.out.println("Results: Passed info");
 
+        //add passed year
         //get passed info
         Bundle passedExtras = getIntent().getExtras();
         int rentalHours = passedExtras.getInt("rentalHours");
@@ -36,10 +38,51 @@ public class BookResults extends Activity implements View.OnClickListener {
         int dropOffDayOfYear= passedExtras.getInt("dropOffDayOfYear");
         String loggedUsername = passedExtras.getString("username");
         int loggedId = passedExtras.getInt("id");
+        String pickUpYear = passedExtras.getString("pickUpYear");
+        String dropOffYear = passedExtras.getString("dropOffYear");
 
-        System.out.println("Passed: rentalHours" + rentalHours + " puDay: " + pickUpDayOfYear + " dropoff: "
-                + dropOffDayOfYear + "user: " + loggedUsername + " id: " + loggedId);
+        System.out.println("Passed - rentalHours: " + rentalHours + " puDay: " + pickUpDayOfYear +
+                "Pick Up Year: " + pickUpYear + " dropoff day: " + dropOffDayOfYear +
+                "Drop Year: " + dropOffYear + "user: " + loggedUsername + " id: " + loggedId);
 
+
+        //Get all books that have the dates free
+        //Between
+        ArrayList<Book> books = new ArrayList<>(db.getAllBooks());
+        ArrayList<Book> availableBooks = new ArrayList<>();
+
+        System.out.println("getAll size:" + books.size());
+
+
+        for(Book book: books) {
+            boolean bookAvaialble = true;
+
+            String[] fifteen = new String[book.getFifteen().length];
+            fifteen = book.getFifteen();
+
+            System.out.println("getAll index: " + fifteen[0]);
+
+            for (int i = pickUpDayOfYear; i < dropOffDayOfYear; i++) {
+
+                if(fifteen[i].equals("1")){
+                    System.out.println("getAll has one");
+                    bookAvaialble = false;
+                    break;
+                }
+            }
+
+            if(bookAvaialble){
+                availableBooks.add(new Book(book));
+            }
+
+        }
+
+        System.out.print("getAll available books: ");
+        for(int i =0; i<availableBooks.size();i++){
+            System.out.print("Title: " + availableBooks.get(i).getTitle() + " ");
+        }
+
+        System.out.println("");
     }
 
     @Override

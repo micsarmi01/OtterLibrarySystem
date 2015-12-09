@@ -56,6 +56,9 @@ public class LoginHold extends Activity implements View.OnClickListener {
     String input2;
     EditText cinput1;
     EditText cinput2;
+    static int loggedId;
+    static String loggedUsername;
+    User loggedUser = null;
 
     public void onClick(View v) {
         cinput1 = (EditText) findViewById(R.id.username_field);
@@ -64,7 +67,7 @@ public class LoginHold extends Activity implements View.OnClickListener {
         cinput2 = (EditText) findViewById(R.id.password_field);
         input2 = cinput2.getText().toString();
 
-        User loggedUser = null;
+
 
         if (v.getId() == R.id.login_button) {
 
@@ -85,14 +88,16 @@ public class LoginHold extends Activity implements View.OnClickListener {
                         if(contains){
                             System.out.println("Contains==True");
                             loggedUser = new User(users.get(i));
+                            loggedId = loggedUser.getId();
+                            loggedUsername = loggedUser.getUsername();
+
                             break;
                         }
                     }
 
                 }
 
-                final int loggedId = loggedUser.getId();
-                final String loggedUsername = loggedUser.getUsername();
+
 
                 if(contains) {
                     AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
@@ -108,12 +113,17 @@ public class LoginHold extends Activity implements View.OnClickListener {
                                     int rentalHours = passedExtras.getInt("rentalHours");
                                     int pickUpDayOfYear = passedExtras.getInt("pickUpDayOfYear");
                                     int dropOffDayOfYear= passedExtras.getInt("dropOffDayOfYear");
+                                    String pickUpYear= passedExtras.getString("pickUpYear");
+                                    String dropOffYear = passedExtras.getString("dropOffYear");
+
 
                                     //pass stuff to results
                                     Bundle extraInfo = new Bundle();
                                     extraInfo.putInt("rentalHours", rentalHours);
                                     extraInfo.putInt("pickUpDayOfYear", pickUpDayOfYear);
                                     extraInfo.putInt("dropOffDayOfYear", dropOffDayOfYear);
+                                    extraInfo.putString("pickUpYear", pickUpYear);
+                                    extraInfo.putString("dropOffYear", dropOffYear);
                                     extraInfo.putString("username", loggedUsername );
                                     extraInfo.putInt("id", loggedId);
                                     I.putExtras(extraInfo);

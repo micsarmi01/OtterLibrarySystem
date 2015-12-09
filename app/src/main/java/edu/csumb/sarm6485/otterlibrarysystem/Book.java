@@ -15,6 +15,28 @@ public class Book {
     public Book() {
     }
 
+    public Book(Book book){
+
+        String[] tempFifteen = new String[book.getFifteen().length];
+        String[] tempSixteen = new String[book.getSixteen().length];
+
+        for(int i=0; i<book.getFifteen().length;i++){
+            this.fifteen[i] = tempFifteen[i];
+        }
+
+        for(int i=0; i<book.getSixteen().length;i++){
+            this.sixteen[i] = tempSixteen[i];
+        }
+
+        setFifteenString(fifteen);
+        setSixteenString(sixteen);
+
+        this.title = book.getTitle();
+        this.author = book.getAuthor();
+        this.isbn = book.getIsbn();
+        this.price = book.getPrice();
+    }
+
     public Book(String title, String author, String isbn, double price) {
 
         for(int i = 0; i<fifteen.length; i++){
