@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,8 +26,8 @@ public class BookResults extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bookresults);
 
-       //View LoginButton = findViewById(R.id.login_button);
-        //LoginButton.setOnClickListener(this);
+        View test = findViewById(R.id.test);
+        test.setOnClickListener(this);
 
         System.out.println("Results: Passed info");
 
@@ -77,12 +78,26 @@ public class BookResults extends Activity implements View.OnClickListener {
 
         }
 
-        System.out.print("getAll available books: ");
+        TextView main = (TextView) findViewById(R.id.main);
+
+        System.out.print("getAll available books: " + availableBooks.size());
         for(int i =0; i<availableBooks.size();i++){
             System.out.print("Title: " + availableBooks.get(i).getTitle() + " ");
+            main.append("Title: " + availableBooks.get(i).getTitle() + " ");
+            System.out.println(books.get(i).toString());
         }
 
+
+
+
+
+
         System.out.println("");
+
+        //choose the book you want to change the date for
+
+        //user chooses book
+        //book and dates are passed to Reserve
     }
 
     @Override
@@ -110,6 +125,35 @@ public class BookResults extends Activity implements View.OnClickListener {
 
 
     public void onClick(View v) {
+
+        if (v.getId() == R.id.test){
+
+            Intent I = new Intent(getApplicationContext(), Confirm.class);
+
+            //get passed info
+            Bundle passedExtras = getIntent().getExtras();
+            int rentalHours = passedExtras.getInt("rentalHours");
+            int pickUpDayOfYear = passedExtras.getInt("pickUpDayOfYear");
+            int dropOffDayOfYear= passedExtras.getInt("dropOffDayOfYear");
+            String pickUpYear= passedExtras.getString("pickUpYear");
+            String dropOffYear = passedExtras.getString("dropOffYear");
+            String loggedUsername = passedExtras.getString("username");
+            int loggedId = passedExtras.getInt("id");
+
+            //pass stuff to results
+            Bundle extraInfo = new Bundle();
+            extraInfo.putInt("rentalHours", rentalHours);
+            extraInfo.putInt("pickUpDayOfYear", pickUpDayOfYear);
+            extraInfo.putInt("dropOffDayOfYear", dropOffDayOfYear);
+            extraInfo.putString("pickUpYear", pickUpYear);
+            extraInfo.putString("dropOffYear", dropOffYear);
+            extraInfo.putString("username", loggedUsername );
+            extraInfo.putInt("id", loggedId);
+            extraInfo.putInt("bookId", 1);
+            I.putExtras(extraInfo);
+
+            startActivity(I);
+        }
 
     }
 

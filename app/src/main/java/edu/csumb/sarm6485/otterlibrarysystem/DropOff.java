@@ -244,7 +244,7 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
                 int difference = dayNumber - pulledPickUpDayOfYear;
                 System.out.println("choice This is the difference: " + difference);
                 //if the days difference is 7 and hours chosen is greater or past the hours chosen OT
-                if (difference <= 7 && difference > 0) {
+                if (difference <= 7 && difference >= 0) {
                     //check if drop time exceeds the 24 hour mark for 7day
                     if (dropOffHour > pickHour && difference == 7) {
                         System.out.println("choice 7day Rental exceeds time: " + (dropOffHour - pickHour));
@@ -258,7 +258,22 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
                                 });
                         dlgAlert.setCancelable(true);
                         dlgAlert.create().show();
-                    } else {
+                    }
+                    else if (dropOffHour < pickHour && difference == 0) {
+                        System.out.println("choice 7day Rental exceeds time: " + (dropOffHour - pickHour));
+                        AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+                        dlgAlert.setMessage("Sorry, The Chosen Time is before the pick up time by " + (pickHour-dropOffHour) + " hours." );
+                        dlgAlert.setTitle("Otter Library System");
+                        dlgAlert.setPositiveButton("OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                });
+                        dlgAlert.setCancelable(true);
+                        dlgAlert.create().show();
+                    }
+
+                    else {
                         System.out.println("choice This is the difference: you are in success " + difference);
 
                         //if difference and time are good go to bookResults

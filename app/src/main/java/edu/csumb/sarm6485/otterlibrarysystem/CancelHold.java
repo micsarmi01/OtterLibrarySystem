@@ -15,8 +15,8 @@ public class CancelHold extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cancelhold);
 
-        //View CreateButton = findViewById(R.id.createaccount_button);
-        //CreateButton.setOnClickListener(this);
+        View cancel = findViewById(R.id.cancel);
+        cancel.setOnClickListener(this);
 
     }
 
