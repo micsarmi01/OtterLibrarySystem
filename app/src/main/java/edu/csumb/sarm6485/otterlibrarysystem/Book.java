@@ -6,13 +6,29 @@ public class Book {
     private String title;
     private String author;
     private double price;
+    private String isbn;
+    private String[] fifteen = new String[365];
+    private String[] sixteen = new String[366];
+    private String sixteenString ="";
+    private String fifteenString="";
 
     public Book() {
     }
 
-    public Book(String title, String author, double price) {
+    public Book(String title, String author, String isbn, double price) {
+
+        for(int i = 0; i<fifteen.length; i++){
+            fifteen[i] = "0";
+        }
+        for(int i = 0; i<sixteen.length; i++){
+            sixteen[i] ="0";
+        }
+
+        setFifteenString(fifteen);
+        setSixteenString(sixteen);
         this.title = title;
         this.author = author;
+        this.isbn = isbn;
         this.price = price;
     }
 
@@ -32,6 +48,10 @@ public class Book {
         return price;
     }
 
+    public String getIsbn(){
+        return isbn;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -48,8 +68,120 @@ public class Book {
         this.price = price;
     }
 
+    public void setIsbn(String isbn){
+        this.isbn = isbn;
+    }
+
+    public void setFifteen(String[] fifteen){
+        for(int i=0; i<fifteen.length; i++){
+            this.fifteen[i] = fifteen[i];
+        }
+    }
+
+    public void setSixteen(String[] sixteen){
+        for(int i=0; i<sixteen.length; i++){
+            this.sixteen[i] = sixteen[i];
+        }
+    }
+
+    public String[] getFifteen(){
+        return fifteen;
+    }
+
+    public String[] getSixteen(){
+        return sixteen;
+    }
+
+    public void setFifteenArray(String fifteenString){
+        System.out.println("fifteenString " + fifteenString);
+        String[] dates = fifteenString.split("__,__");
+        setFifteen(dates);
+        setFifteenString(dates);
+    }
+
+    public void setSixteenArray(String sixteenString){
+        System.out.println("sixteenString " + sixteenString);
+        String[] dates = sixteenString.split("__,__");
+        setSixteen(dates);
+        setSixteenString(dates);
+    }
+
+    public String getFifteenString(){
+        return fifteenString;
+    }
+
+    public String getSixteenString(){
+        return sixteenString;
+    }
+
+    public String setFifteenString(String[] dates){
+        String LIST_SEPARATOR = "__,__";
+
+
+        StringBuffer stringBuffer = new StringBuffer();
+
+        for (String str : dates) {
+            stringBuffer.append(str).append(LIST_SEPARATOR);
+        }
+
+        // Remove last separator
+        int lastIndex = stringBuffer.lastIndexOf(LIST_SEPARATOR);
+        stringBuffer.delete(lastIndex, lastIndex + LIST_SEPARATOR.length() + 1);
+
+        fifteenString = stringBuffer.toString();
+
+        return fifteenString;
+
+    }
+
+    public String setSixteenString(String[] dates){
+        String LIST_SEPARATOR = "__,__";
+
+
+        StringBuffer stringBuffer = new StringBuffer();
+
+        for (String str : dates) {
+            stringBuffer.append(str).append(LIST_SEPARATOR);
+        }
+
+        // Remove last separator
+        int lastIndex = stringBuffer.lastIndexOf(LIST_SEPARATOR);
+        stringBuffer.delete(lastIndex, lastIndex + LIST_SEPARATOR.length() + 1);
+
+        sixteenString=stringBuffer.toString();
+
+        return sixteenString;
+    }
+
     @Override
     public String toString() {
-        return "Book:[id=" + id + ", title=" + title + ", author=" + author +  ", price=" + price +"]";
+
+        System.out.print("ID" + id + "Date Table: 2015 ");
+
+
+        for(int i =0; i<fifteen.length;i++){
+            if((i+1)%10==0){
+                System.out.print(fifteen[i]+"\n");
+
+            }
+            else{
+                System.out.print(fifteen[i]);
+            }
+        }
+
+        System.out.print("ID" + id + "Date Table: 2016 ");
+        for(int i =0; i<sixteen.length;i++){
+            if((i+1)%10==0){
+                System.out.print(sixteen[i]+"\n");
+
+            }
+            else{
+                System.out.print(sixteen[i]);
+            }
+        }
+        return "ID: " + id + "\nTitle: " + title + "\nAuthor: " + author +  "\nISBN: " + isbn +  "\nPrice: " + price +"\n\n\n" +
+               getFifteenString() + "\n" + getSixteenString() +"\n";
     }
+
+
 }

@@ -21,7 +21,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_ID = "id";
     private static final String KEY_TITLE = "title";
     private static final String KEY_AUTHOR = "author";
+    private static final String KEY_ISBN = "isbn";
     private static final String KEY_PRICE = "price";
+    private static final String KEY_FIFTEEN = "fifteen";
+    private static final String KEY_SIXTEEN = "sixteen";
     //Columns Names of users table
     private static final String KEY_USERNAME = "username";
     private static final String KEY_PASSWORD = "password";
@@ -43,7 +46,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "title TEXT, "+
                 "author TEXT, " +
-                "price REAL)";
+                "isbn TEXT, " +
+                "price REAL, " +
+                "fifteen TEXT, " +
+                "sixteen TEXT)";
 
         String CREATE_USER_TABLE = "CREATE TABLE users ( " +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -65,7 +71,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // create fresh books and users table
         this.onCreate(db);
     }
-    //---------------------------------------------------------------------
+    //******************************METHODS FOR BOOK*******************************************
 
     public void addBook(Book book){
         Log.d(TAG, "addBook() - " + book.toString());
@@ -76,7 +82,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_TITLE, book.getTitle()); // get title
         values.put(KEY_AUTHOR, book.getAuthor()); // get author
+        values.put(KEY_ISBN, book.getIsbn()); // get isbn
         values.put(KEY_PRICE, book.getPrice());
+        System.out.println("book.getFifteenString()" + book.getFifteenString());
+        System.out.println("book.getSixteenString()" + book.getSixteenString());
+        values.put(KEY_FIFTEEN, book.getFifteenString());
+        values.put(KEY_SIXTEEN, book.getSixteenString());
         // 3. insert
         db.insert(TABLE_BOOKS, // table
                 null, //nullColumnHack
@@ -106,7 +117,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 //System.out.println("TESTid: " + Integer.parseInt(cursor.getString(0)));
                 book.setTitle(cursor.getString(1));
                 book.setAuthor(cursor.getString(2));
-                book.setPrice(Double.parseDouble(cursor.getString(3)));
+                book.setIsbn(cursor.getString(3));
+                book.setPrice(Double.parseDouble(cursor.getString(4)));
+                System.out.println("cursor.getString(5)" + cursor.getString(5));
+                book.setFifteenArray(cursor.getString(5));
+                System.out.println("cursor.getString(6)" + cursor.getString(6));
+                book.setSixteenArray(cursor.getString(6));
                 // Add book to books
                 books.add(book);
             } while (cursor.moveToNext());
@@ -128,7 +144,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("title", book.getTitle()); // get title
         values.put("author", book.getAuthor()); // get author
+        values.put("isbn", book.getIsbn()); // get author
         values.put("price", book.getPrice());
+        values.put("fifteen", book.getFifteenString());
+        values.put("sixteen", book.getSixteenString());
         // 3. updating row
         int i = db.update(TABLE_BOOKS, //table
                 values, // column/value

@@ -28,7 +28,7 @@ public class CreateClass extends Activity implements View.OnClickListener {
         View CreateButton = findViewById(R.id.createaccount_button);
         CreateButton.setOnClickListener(this);
 
-        System.out.println("Checking Username: " + checkFormat("mike$!"));
+        //System.out.println("Checking Username: " + checkFormat("mike$!"));
 
 
 
@@ -67,6 +67,7 @@ public class CreateClass extends Activity implements View.OnClickListener {
 
         cinput2 = (EditText) findViewById(R.id.password_field);
         input2 = cinput2.getText().toString();
+
         if (v.getId() == R.id.createaccount_button) {
 
             if(checkFormat(input1)&&checkFormat(input2)) {
@@ -96,8 +97,7 @@ public class CreateClass extends Activity implements View.OnClickListener {
                 dlgAlert.setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent I = new Intent(getApplicationContext(), CreateClass.class);
-                                startActivity(I);
+
                             }
                         });
                 dlgAlert.setCancelable(true);
