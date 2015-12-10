@@ -28,6 +28,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         View manageButton = findViewById(R.id.managesystem_button);
         manageButton.setOnClickListener(this);
 
+        //add users to db
+        //add user to admin db
+        //add transactions
+
     }
 
     @Override

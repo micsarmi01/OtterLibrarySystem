@@ -200,8 +200,10 @@ public class CancelHold extends Activity implements View.OnClickListener, Adapte
                 if(transactions.get(i).getId()==transactionID){
                     transactions.get(i).setActive(0);
                     db.updateTransaction(new Transaction(transactions.get(i)));
+                    TimeStamp timeStamp = new TimeStamp();
 
-                    //Transaction transactionNew = new Transaction(transactions.get(i).getUsername(), 2)
+                    Transaction transactionNew = new Transaction(transactions.get(i).getUsername(),2, timeStamp.getDate(), timeStamp.getTime());
+                    db.addTransaction(transactionNew);
                 }
             }
 

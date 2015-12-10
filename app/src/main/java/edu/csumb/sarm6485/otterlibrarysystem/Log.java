@@ -30,15 +30,24 @@ public class Log extends Activity implements View.OnClickListener {
         ArrayList<Transaction> transactions = new ArrayList<>(db.getAllTransactions());
 
         for(Transaction transaction: transactions){
-            main.append("\n\nTransaction Number: " + transaction.getId());
-            main.append("\nUsername: " + transaction.getUsername());
-            main.append("\nTransaction Type: " + transaction.getType());
-            main.append("\nBook Title: " + transaction.getTitle());
-            main.append("\nPick Up: " + transaction.getPickUpDate());
-            main.append("\nReturn: " + transaction.getDropOffDate());
-            main.append("\nTransaction Date: " + transaction.getDate());
-            main.append("\nTransaction Time: " + transaction.getTime());
 
+            if(transaction.getTypeNumber()==1) {
+                main.append("\n\nTransaction Number: " + transaction.getId());
+                main.append("\nUsername: " + transaction.getUsername());
+                main.append("\nTransaction Type: " + transaction.getType());
+                main.append("\nBook Title: " + transaction.getTitle());
+                main.append("\nPick Up: " + transaction.getPickUpDate());
+                main.append("\nReturn: " + transaction.getDropOffDate());
+                main.append("\nTransaction Date: " + transaction.getDate());
+                main.append("\nTransaction Time: " + transaction.getTime());
+            }
+            else{
+                main.append("\n\nTransaction Number: " + transaction.getId());
+                main.append("\nUsername: " + transaction.getUsername());
+                main.append("\nTransaction Type: " + transaction.getType());
+                main.append("\nTransaction Date: " + transaction.getDate());
+                main.append("\nTransaction Time: " + transaction.getTime());
+            }
         }
 
         db.getAllBooks();

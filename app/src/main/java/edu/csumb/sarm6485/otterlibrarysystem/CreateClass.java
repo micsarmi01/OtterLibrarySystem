@@ -28,10 +28,6 @@ public class CreateClass extends Activity implements View.OnClickListener {
         View CreateButton = findViewById(R.id.createaccount_button);
         CreateButton.setOnClickListener(this);
 
-        //System.out.println("Checking Username: " + checkFormat("mike$!"));
-
-
-
     }
 
     @Override
@@ -74,6 +70,11 @@ public class CreateClass extends Activity implements View.OnClickListener {
 
                 User user = new User(input1, input2);
                 db.addUser(user);
+
+                TimeStamp timeStamp = new TimeStamp();
+
+                Transaction transactionNew = new Transaction(user.getUsername(),3, timeStamp.getDate(), timeStamp.getTime());
+                db.addTransaction(transactionNew);
 
                 AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
                 dlgAlert.setMessage("Successfully Created Account");
@@ -168,10 +169,7 @@ public class CreateClass extends Activity implements View.OnClickListener {
                 return false;
             }
         }
-
         return true;
-
-
     }
 
 }

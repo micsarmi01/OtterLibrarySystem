@@ -22,7 +22,7 @@ public class TimeStamp {
 
         this.date = String.format("%02d", month) + "/" + String.format("%02d", day) + "/" + year;
 
-        this.time = hour + ":" + minute + ":" + second;
+        this.time = String.format("%02d", hour) + ":" + String.format("%02d", minute) + ":" + String.format("%02d", second);
     }
 
     public String getTime(){

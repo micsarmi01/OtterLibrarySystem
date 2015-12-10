@@ -81,9 +81,17 @@ public class Transaction {
     //constructor for all other transaction types
     public Transaction(String username, int type,  String date, String time){
         this.username = username;
+
         this.type = type;
         this.date = date;
         this.time = time;
+
+        if(type==2){
+            typePrint = "Cancel Hold";
+        }
+        else if(type==3){
+            typePrint = "Create Account";
+        }
     }
 
     public String toString(){

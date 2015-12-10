@@ -24,12 +24,14 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
     // create a database for the app
 
     MySQLiteHelper db = new MySQLiteHelper(this);
-    ArrayList<Book> availableBooks = new ArrayList<>();
+    ArrayList<Book> availableBooks;
     public double cost;
+    public ArrayList<Book> books;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ArrayList<Book> books = new ArrayList<>(db.getAllBooks());
+         availableBooks= new ArrayList<>();
+         books = new ArrayList<>(db.getAllBooks());
 
 
         super.onCreate(savedInstanceState);
@@ -61,7 +63,7 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
 
 
 
-        System.out.println("getAll size:" + books.size());
+        System.out.println("TESTTEST getAll size:" + books.size());
 
 
         for(Book book: books) {
@@ -72,31 +74,30 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
 
             System.out.println("getAll index: " + fifteen[0]);
 
-            if(pickUpDayOfYear==dropOffDayOfYear){
-                if(fifteen[pickUpDayOfYear].equals("1")){
-                    System.out.println("getAll has one");
-                    bookAvaialble = false;
-                    break;
-                }
-            }
-            else{
-                for (int i = pickUpDayOfYear; i < dropOffDayOfYear; i++) {
 
-                    if(fifteen[i].equals("1")){
-                        System.out.println("getAll has one");
+                if (pickUpDayOfYear == dropOffDayOfYear) {
+                    if (fifteen[pickUpDayOfYear].equals("1")) {
+                        System.out.println("TEST TEST getAll has one");
                         bookAvaialble = false;
-                        break;
+                    }
+                } else {
+
+                    for (int i = pickUpDayOfYear; i < dropOffDayOfYear; i++) {
+
+                        if (fifteen[i].equals("1")) {
+                            System.out.println("getAll has one");
+                            bookAvaialble = false;
+                            break;
+                        }
                     }
                 }
+
+
+                    if (bookAvaialble) {
+                        availableBooks.add(new Book(book));
+                    }
+
             }
-
-
-
-            if(bookAvaialble){
-                availableBooks.add(new Book(book));
-            }
-
-        }
 
         TextView main = (TextView) findViewById(R.id.main);
         ArrayList<String> titles = new ArrayList<>();
