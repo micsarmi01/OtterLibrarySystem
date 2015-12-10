@@ -20,11 +20,18 @@
         android:layout_gravity="center_horizontal"
         android:textSize="16pt"
         android:gravity="center_vertical|center_horizontal" />
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/book_spinner" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
+        android:textSize="14pt"
         android:id="@+id/main" />
+
+
 
 </LinearLayout>

@@ -70,7 +70,7 @@ public class CreateClass extends Activity implements View.OnClickListener {
 
         if (v.getId() == R.id.createaccount_button) {
 
-            if(checkFormat(input1)&&checkFormat(input2)) {
+            if(checkFormat(input1)&&checkFormat(input2)&&userDuplicateCheck(input1)) {
 
                 User user = new User(input1, input2);
                 db.addUser(user);
@@ -88,7 +88,21 @@ public class CreateClass extends Activity implements View.OnClickListener {
                 dlgAlert.setCancelable(true);
                 dlgAlert.create().show();
 
-                System.out.println(db.getAllUsers());
+
+            }
+            else if(!userDuplicateCheck(input1)){
+
+                AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+                dlgAlert.setMessage("Username already Exists, Try again.");
+                dlgAlert.setTitle("Otter Library System");
+                dlgAlert.setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                dlgAlert.setCancelable(true);
+                dlgAlert.create().show();
             }
             else{
                 AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
@@ -97,6 +111,7 @@ public class CreateClass extends Activity implements View.OnClickListener {
                 dlgAlert.setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
+
 
                             }
                         });
@@ -143,6 +158,20 @@ public class CreateClass extends Activity implements View.OnClickListener {
         else {
             return false;
         }
+    }
+
+    public boolean userDuplicateCheck(String username){
+        ArrayList<User> users = new ArrayList<>(db.getAllUsers());
+
+        for(User user : users){
+            if(user.getUsername().equals(username)){
+                return false;
+            }
+        }
+
+        return true;
+
+
     }
 
 }

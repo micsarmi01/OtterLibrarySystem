@@ -52,8 +52,8 @@ public class CancelHold extends Activity implements View.OnClickListener {
     public void onClick(View v) {
 
         int bookToCancel = 1;
-        int pickUpDay = 346;
-        int dropDay = 347;
+        int pickUpDay = 340;
+        int dropDay = 364;
 
 
         if (v.getId() == R.id.cancel) {

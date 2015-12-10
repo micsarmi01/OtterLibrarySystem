@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +26,10 @@ public class Confirm extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.confirm);
 
-        View test = findViewById(R.id.home);
+        View test = findViewById(R.id.confirm_button);
         test.setOnClickListener(this);
 
-
-        ArrayList<Book> books = new ArrayList<>(db.getAllBooks());
+        TextView main = (TextView) findViewById(R.id.main);
 
         Bundle passedExtras = getIntent().getExtras();
         int rentalHours = passedExtras.getInt("rentalHours");
@@ -39,29 +39,14 @@ public class Confirm extends Activity implements View.OnClickListener {
         String dropOffYear = passedExtras.getString("dropOffYear");
         String loggedUsername = passedExtras.getString("username");
         int loggedId = passedExtras.getInt("id");
-        int bookId = passedExtras.getInt("bookId");
+        String bookTitle = passedExtras.getString("title");
+        double rentalTotal = passedExtras.getDouble("rentalTotal");
 
-        //find the book in the array by title
-
-        for(int i=0;i<books.size();i++){
-            if(books.get(i).getId()==bookId){
-                System.out.println("getAll This is the book by ID: " + books.get(i).getTitle());
-                String[] fifteen;
-
-                fifteen = books.get(i).getFifteen();
-
-                //alter the array
-                for (int j = pickUpDayOfYear; j < dropOffDayOfYear+1; j++) {
-
-                    fifteen[j] = "1";
-                    books.get(i).setFifteenString(fifteen);
-                }
-
-                db.updateBook(books.get(i));
-            }
-        }
-
-        //change the array
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        main.setText("");
+        main.append("Book Title: " + bookTitle + " \n");
+        main.append("Username: " + loggedUsername + " \n");
+        main.append("Total Rental Cost: " + formatter.format(rentalTotal) + " \n");
 
 
     }
@@ -90,13 +75,48 @@ public class Confirm extends Activity implements View.OnClickListener {
 
     public void onClick(View v) {
 
-        if (v.getId() == R.id.home) {
+        if (v.getId() == R.id.confirm_button) {
 
             Intent I = new Intent(getApplicationContext(), MainActivity.class);
+
+            ArrayList<Book> books = new ArrayList<>(db.getAllBooks());
+
+            Bundle passedExtras = getIntent().getExtras();
+            int rentalHours = passedExtras.getInt("rentalHours");
+            int pickUpDayOfYear = passedExtras.getInt("pickUpDayOfYear");
+            int dropOffDayOfYear= passedExtras.getInt("dropOffDayOfYear");
+            String pickUpYear= passedExtras.getString("pickUpYear");
+            String dropOffYear = passedExtras.getString("dropOffYear");
+            String loggedUsername = passedExtras.getString("username");
+            int loggedId = passedExtras.getInt("id");
+            String bookTitle = passedExtras.getString("title");
+            double rentalTotal = passedExtras.getDouble("rentalTotal");
+
+            //find the book in the array by title
+
+            for(int i=0;i<books.size();i++){
+                if(books.get(i).getTitle().equals(bookTitle)){
+                    System.out.println("getAll This is the book by Title: " + books.get(i).getTitle());
+                    String[] fifteen;
+
+                    fifteen = books.get(i).getFifteen();
+
+                    //alter the array
+                    for (int j = pickUpDayOfYear; j < dropOffDayOfYear+1; j++) {
+
+                        fifteen[j-1] = "1";
+                        books.get(i).setFifteenString(fifteen);
+                    }
+
+                    db.updateBook(books.get(i));
+                }
+            }
             startActivity(I);
         }
 
 
     }
+
+
 
 }
