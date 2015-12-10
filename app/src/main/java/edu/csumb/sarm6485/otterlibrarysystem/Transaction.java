@@ -79,7 +79,7 @@ public class Transaction {
     }
 
     public String toString(){
-        return "- Username: "+ username + "\nType:" + typePrint +"\n "+ date +", "+ time;
+        return "Transaction: - Username: " + username + " Type:" + typePrint +" "+ date +", "+ time;
     }
 
     //**********Getters****************

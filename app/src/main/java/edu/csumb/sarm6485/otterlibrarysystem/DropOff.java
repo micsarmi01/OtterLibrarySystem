@@ -300,7 +300,7 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
                         extraInfo.putString("pickUpDay", pickUpDay);
                         extraInfo.putString("pickUpYear", pulledYear);
                         extraInfo.putString("pickUpHour", pulledPickUpHour);
-                        extraInfo.putString("pickUpAmpm", pulledPickUpAmPm);
+                        extraInfo.putString("pickUpAmPm", pulledPickUpAmPm);
 
                         //Drop off
                         extraInfo.putInt("dropOffDayOfYear", dayNumber);
@@ -309,7 +309,7 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
                         extraInfo.putString("dropOffMonth", month);
                         extraInfo.putString("dropOffDay", day);
                         extraInfo.putString("dropOffHour" , hour);
-                        extraInfo.putString("dropOffAmpm", ampm);
+                        extraInfo.putString("dropOffAmPm", ampm);
 
                         //extraInfo.putString("result2", input2);
                         I.putExtras(extraInfo);

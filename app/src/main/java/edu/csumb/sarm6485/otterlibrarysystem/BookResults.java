@@ -242,7 +242,7 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
             extraInfo.putString("dropOffAmPm", dropOffAmPm);
 
             //transaction stuff
-            extraInfo.putString("username", loggedUsername );
+            extraInfo.putString("username", loggedUsername);
             extraInfo.putInt("id", loggedId);
             extraInfo.putString("title", bookTitle);
             extraInfo.putDouble("rentalTotal", rentalTotal);

@@ -30,13 +30,14 @@ public class Log extends Activity implements View.OnClickListener {
         ArrayList<Transaction> transactions = new ArrayList<>(db.getAllTransactions());
 
         for(Transaction transaction: transactions){
-            main.append("Transaction Number: " + transaction.getId());
+            main.append("\n\nTransaction Number: " + transaction.getId());
             main.append("\nUsername: " + transaction.getUsername());
             main.append("\nTransaction Type: " + transaction.getType());
+            main.append("\nBook Title: " + transaction.getTitle());
             main.append("\nPick Up: " + transaction.getPickUpDate());
             main.append("\nReturn: " + transaction.getDropOffDate());
             main.append("\nTransaction Date: " + transaction.getDate());
-            main.append("\nTransaction Time: " + transaction.getUsername());
+            main.append("\nTransaction Time: " + transaction.getTime());
 
         }
 

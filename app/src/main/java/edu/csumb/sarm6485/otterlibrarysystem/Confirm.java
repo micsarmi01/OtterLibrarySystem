@@ -139,6 +139,7 @@ public class Confirm extends Activity implements View.OnClickListener {
             TimeStamp timeStamp = new TimeStamp();
             Transaction transaction = new Transaction(loggedUsername, 1, rentalTotal, bookTitle, timeStamp.getDate(),
                     timeStamp.getTime(), pickUpDateTime, dropOffDateTime);
+            System.out.println("TESTTESTTEST" + transaction.toString() + "USER: " + transaction.getUsername());
             db.addTransaction(transaction);
             startActivity(I);
         }

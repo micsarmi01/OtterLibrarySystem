@@ -36,7 +36,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_RETURN = "return";
     private static final String KEY_PICKUP = "pickup";
     private static final String KEY_DATE = "date";
-    private static final String KEY_TIME = "username";
+    private static final String KEY_TIME = "time";
     private static final String KEY_TITLETRAN = "title";
     private static final String KEY_COST = "cost";
 
@@ -280,20 +280,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
 
-        /*"number INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "username TEXT, "+
-                "type TEXT, "+
-                "title TEXT, "+
-                "pickup TEXT, " +
-                "return TEXT, " +
-                "price REAL, " +
-                "date TEXT, " +
-                "time Text)";*
-        */
-
         // 2. create ContentValues to add key "column"/value
         ContentValues values = new ContentValues();
         values.put(KEY_USERNAMETRAN, transaction.getUsername());
+        System.out.println("TESTTEST: transaction get username" + transaction.getUsername());
         values.put(KEY_TYPE, transaction.getType());
         values.put(KEY_TITLETRAN, transaction.getTitle());
         values.put(KEY_PICKUP, transaction.getPickUpDate());
@@ -337,8 +327,21 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 transaction= new Transaction();
+
                 transaction.setId(Integer.parseInt(cursor.getString(0)));
+                System.out.println("cursor0: " + cursor.getString(0));
                 transaction.setUsername(cursor.getString(1));
+                System.out.println("acursor1: " + cursor.getString(1));
+
+                System.out.println("acursor2: " + cursor.getString(2));
+                System.out.println("acursor3: " + cursor.getString(3));
+                System.out.println("acursor4: " + cursor.getString(4));
+                System.out.println("acursor5: " + cursor.getString(5));
+                System.out.println("acursor6: " + cursor.getString(6));
+                System.out.println("acursor7: " + cursor.getString(7));
+                System.out.println("acursor8: " + cursor.getString(8));
+
+
                 transaction.setType(cursor.getString(2));
                 transaction.setTitle(cursor.getString(3));
                 transaction.setPickUpDate(cursor.getString(4));
