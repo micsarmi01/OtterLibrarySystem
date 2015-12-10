@@ -218,6 +218,7 @@ public class PlaceHold extends Activity implements View.OnClickListener, Adapter
         int dayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
         int currentYear = calendar.get(Calendar.YEAR);
 
+        /*
         System.out.println("Day of the year today: " + dayOfYear);
         if(dayNumber<dayOfYear&&year.equals(Integer.toString(currentYear))){
             System.out.println("You picked a date in the past ");
@@ -232,7 +233,7 @@ public class PlaceHold extends Activity implements View.OnClickListener, Adapter
             dlgAlert.setCancelable(true);
             dlgAlert.create().show();
         }
-        else{
+        else{*/
             //pass the dayNumber to the Drop Off Class
             Intent I = new Intent(getApplicationContext(), DropOff.class);
             Bundle extraInfo = new Bundle();
@@ -252,6 +253,5 @@ public class PlaceHold extends Activity implements View.OnClickListener, Adapter
     }
 
 
-    }
-
 }
+

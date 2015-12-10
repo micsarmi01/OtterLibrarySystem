@@ -8,4 +8,16 @@
         android:layout_height="wrap_content"
         android:text="Cancel Hold"
         android:id="@+id/cancel" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/transactions_spinner" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/mainText"
+        android:textSize="14pt" />
 </LinearLayout>

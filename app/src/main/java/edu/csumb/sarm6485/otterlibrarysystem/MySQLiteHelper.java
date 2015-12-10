@@ -31,6 +31,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_USERNAME = "username";
     private static final String KEY_PASSWORD = "password";
     //Columns Names of transaction table
+    private static final String KEY_NUMBER = "number";
     private static final String KEY_USERNAMETRAN = "username";
     private static final String KEY_TYPE = "type";
     private static final String KEY_RETURN = "return";
@@ -39,6 +40,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_TIME = "time";
     private static final String KEY_TITLETRAN = "title";
     private static final String KEY_COST = "cost";
+    private static final String KEY_TYPENUMBER = "typenumber";
+    private static final String KEY_ACTIVE = "active";
+    private static final String KEY_PICKDAYYEAR = "pickdayyear";
+    private static final String KEY_DROPDAYYEAR = "dropdayyear";
 
     // Database Version
     private static final int DATABASE_VERSION = 1;
@@ -77,7 +82,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 "return TEXT, " +
                 "cost REAL, " +
                 "date TEXT, " +
-                "time TEXT)";
+                "time TEXT, " +
+                "active INTEGER, " +
+                "typenumber INTEGER, " +
+                "pickdayyear INTEGER, " +
+                "dropdayyear INTEGER)";
 
         // execute an SQL statement to create the table
         db.execSQL(CREATE_BOOK_TABLE);
@@ -292,6 +301,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_DATE, transaction.getDate());
         values.put(KEY_TIME, transaction.getTime());
 
+        System.out.println("TESTTEST: transaction get active" + transaction.getActive());
+        values.put(KEY_ACTIVE, transaction.getActive());
+
+        values.put(KEY_TYPENUMBER, transaction.getTypeNumber());
+        values.put(KEY_PICKDAYYEAR, transaction.getPickDayYear());
+        values.put(KEY_DROPDAYYEAR, transaction.getDropDayYear());
+
 
 
         // 3. insert to table
@@ -340,6 +356,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 System.out.println("acursor6: " + cursor.getString(6));
                 System.out.println("acursor7: " + cursor.getString(7));
                 System.out.println("acursor8: " + cursor.getString(8));
+                System.out.println("acursor9: " + cursor.getString(9));
+                System.out.println("acursor10: " + cursor.getString(10));
+
 
 
                 transaction.setType(cursor.getString(2));
@@ -349,6 +368,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 transaction.setRentalCost(Double.parseDouble(cursor.getString(6)));
                 transaction.setDate(cursor.getString(7));
                 transaction.setTime(cursor.getString(8));
+                transaction.setActive(Integer.parseInt(cursor.getString(9)));
+                transaction.setTypeNumber(Integer.parseInt(cursor.getString(10)));
+                transaction.setPickDayYear(Integer.parseInt(cursor.getString(11)));
+                transaction.setDropDayYear(Integer.parseInt(cursor.getString(12)));
+
 
                 // Add book to books
                 transactions.add(transaction);
@@ -361,6 +385,43 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return transactions;
     }
 
+    //update transaction
+    public int updateTransaction(Transaction transaction) {
+
+        // 1. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // 2. create ContentValues to add key "column"/value
+        ContentValues values = new ContentValues();
+        values.put(KEY_USERNAMETRAN, transaction.getUsername());
+        System.out.println("TESTTEST: transaction get username" + transaction.getUsername());
+        values.put(KEY_TYPE, transaction.getType());
+        values.put(KEY_TITLETRAN, transaction.getTitle());
+        values.put(KEY_PICKUP, transaction.getPickUpDate());
+        values.put(KEY_RETURN, transaction.getDropOffDate());
+        values.put(KEY_COST, transaction.getRentalCost());
+        values.put(KEY_DATE, transaction.getDate());
+        values.put(KEY_TIME, transaction.getTime());
+
+        System.out.println("TESTTEST: transaction get active" + transaction.getActive());
+        values.put(KEY_ACTIVE, transaction.getActive());
+
+        values.put(KEY_TYPENUMBER, transaction.getTypeNumber());
+        values.put(KEY_PICKDAYYEAR, transaction.getPickDayYear());
+        values.put(KEY_DROPDAYYEAR, transaction.getDropDayYear());
+
+        // 3. updating row
+        int i = db.update(TABLE_TRANSACTIONS, //table
+                values, // column/value
+                KEY_NUMBER+" = ?", // selections
+                new String[] { String.valueOf(transaction.getId()) }); //selection args
+
+        // 4. close
+        db.close();
+
+        return i;
+
+    }
 
 
 

@@ -64,7 +64,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             startActivity(I);
         }
         else if (v.getId() == R.id.cancelhold_button) {
-            Intent I = new Intent(getApplicationContext(),CancelHold.class);
+            Intent I = new Intent(getApplicationContext(),LoginCancel.class);
             startActivity(I);
         }
         else if (v.getId() == R.id.managesystem_button) {

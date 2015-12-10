@@ -20,7 +20,7 @@ public class TimeStamp {
         int year = cal.get(Calendar.YEAR);
         int day = cal.get(Calendar.DATE);
 
-        this.date = String.format("%02d", month) + "-" + String.format("%02d", day) + "-" + year;
+        this.date = String.format("%02d", month) + "/" + String.format("%02d", day) + "/" + year;
 
         this.time = hour + ":" + minute + ":" + second;
     }

@@ -7,8 +7,8 @@ public class Book {
     private String author;
     private double price;
     private String isbn;
-    private String[] fifteen = new String[365];
-    private String[] sixteen = new String[366];
+    private String[] fifteen = new String[366];
+    private String[] sixteen = new String[367];
     private String sixteenString ="";
     private String fifteenString="";
 

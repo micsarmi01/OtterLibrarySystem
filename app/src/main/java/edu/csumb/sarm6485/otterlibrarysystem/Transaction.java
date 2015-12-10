@@ -22,32 +22,37 @@ public class Transaction {
     private String dropOffDate;
     private String title;
     private int id;
+    private int active;
+    private int pickDayYear;
+    private int dropDayYear;
 
     NumberFormat formatter = NumberFormat.getCurrencyInstance();
 
     public Transaction(){}
 
-    public Transaction(String username, int type, double rentalCost, String date, String time){
-        this.username = username;
-        this.type = type;
-        this.rentalCost = rentalCost;
-        this.date = date;
-        this.time = time;
 
-        if(type==1){
-            typePrint = "Rental" + "(" + formatter.format(rentalCost) + ")";
-        }
-        else if(type==2){
-            typePrint = "Cancel Hold";
-        }
-        else if(type==3){
-            typePrint = "Create Account";
-        }
+    //copy constructor
+    public Transaction(Transaction transaction){
+
+        this.id=transaction.id;
+        this.username = transaction.username;
+        this.type = transaction.type;
+        this.rentalCost = transaction.rentalCost;
+        this.date = transaction.date;
+        this.time = transaction.time;
+        this.pickUpDate = transaction.pickUpDate;
+        this.dropOffDate = transaction.dropOffDate;
+        this.title = transaction.title;
+        this.typePrint = transaction.typePrint;
+        this.active=transaction.active;
+        this.dropDayYear=transaction.dropDayYear;
+        this.pickDayYear=transaction.pickDayYear;
+
+
     }
-
     //constructor for book rental
     public Transaction(String username, int type, double rentalCost, String title, String date,
-                                String time, String pickUpDate, String dropOffDate){
+                                String time, String pickUpDate, String dropOffDate, int pickDayYear, int dropDayYear){
 
         this.username = username;
         this.type = type;
@@ -57,6 +62,9 @@ public class Transaction {
         this.pickUpDate = pickUpDate;
         this.dropOffDate = dropOffDate;
         this.title = title;
+        this.active=1;
+        this.pickDayYear = pickDayYear;
+        this.dropDayYear=dropDayYear;
 
         if(type==1){
             typePrint = "Rental" + "(" + formatter.format(rentalCost) + ")";
@@ -79,10 +87,16 @@ public class Transaction {
     }
 
     public String toString(){
-        return "Transaction: - Username: " + username + " Type:" + typePrint +" "+ date +", "+ time;
+        return "Transaction: - Username: " + username + " Type:" + typePrint +" "+ date +", "+ time +" Active: " + active;
     }
 
+
     //**********Getters****************
+    public int getPickDayYear(){return pickDayYear;}
+    public int getDropDayYear(){return dropDayYear;}
+    public int getActive(){return active;}
+    public int getTypeNumber(){return type;}
+
     public String getUsername(){
         return username;
     }
@@ -120,6 +134,12 @@ public class Transaction {
     }
 
     //*************Setters***************
+    public void setDropDayYear(int dropDayYear){
+        this.dropDayYear=dropDayYear;
+    }
+    public void setPickDayYear(int pickDayYear){
+        this.pickDayYear=pickDayYear;
+    }
     public void setUsername(String username){
         this.username = username;
     }
@@ -153,4 +173,12 @@ public class Transaction {
     }
 
     public void setId(int id){this.id=id;}
+
+    public void setActive(int active){
+        this.active=active;
+    }
+
+    public void setTypeNumber(int typeNumber){
+        this.type=typeNumber;
+    }
 }

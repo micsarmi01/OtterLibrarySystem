@@ -86,7 +86,7 @@ public class Confirm extends Activity implements View.OnClickListener {
             Bundle extras= getIntent().getExtras();
             //PickUp
             int pickUpDayOfYear = extras.getInt("pickUpDayOfYear");
-            String pickUpYearYear = extras.getString("pickUpYear");
+            String pickUpYear = extras.getString("pickUpYear");
             String pickUpMonth = extras.getString("pickUpMonth");
             String pickUpDay = extras.getString("pickUpDay");
             String pickUpHour = extras.getString("pickUpHour");
@@ -107,10 +107,10 @@ public class Confirm extends Activity implements View.OnClickListener {
 
             //Transaction DT for Pickup
             String pickUpDateTime;
-            pickUpDateTime = pickUpMonth +"/" + pickUpDay + "/" + pickUpDayOfYear + " (" + pickUpHour +" "+ pickUpAmPm + ")";
+            pickUpDateTime = getMonthNumber(pickUpMonth) +"/" + pickUpDay + "/" + pickUpYear+ " (" + pickUpHour +" "+ pickUpAmPm + ")";
             //Transaction DT for Dropoff
             String dropOffDateTime;
-            dropOffDateTime = dropOffMonth +"/" + dropOffDay + "/" + dropOffDayOfYear + " (" + dropOffHour +" "+ dropOffAmPm + ")";
+            dropOffDateTime = getMonthNumber(dropOffMonth) +"/" + dropOffDay + "/" + dropOffYear + " (" + dropOffHour +" "+ dropOffAmPm + ")";
 
 
             //find the book in the array by title
@@ -125,7 +125,7 @@ public class Confirm extends Activity implements View.OnClickListener {
                     //alter the array
                     for (int j = pickUpDayOfYear; j < dropOffDayOfYear+1; j++) {
 
-                        fifteen[j-1] = "1";
+                        fifteen[j] = "1";
                         books.get(i).setFifteenString(fifteen);
                     }
 
@@ -138,7 +138,7 @@ public class Confirm extends Activity implements View.OnClickListener {
 
             TimeStamp timeStamp = new TimeStamp();
             Transaction transaction = new Transaction(loggedUsername, 1, rentalTotal, bookTitle, timeStamp.getDate(),
-                    timeStamp.getTime(), pickUpDateTime, dropOffDateTime);
+                    timeStamp.getTime(), pickUpDateTime, dropOffDateTime, pickUpDayOfYear, dropOffDayOfYear);
             System.out.println("TESTTESTTEST" + transaction.toString() + "USER: " + transaction.getUsername());
             db.addTransaction(transaction);
             startActivity(I);
@@ -147,6 +147,45 @@ public class Confirm extends Activity implements View.OnClickListener {
 
     }
 
+    public int getMonthNumber(String month){
+        if(month.equals("January")){
+            return 1;
+        }
+        else if(month.equals("February")){
+            return 2;
+        }
+        else if(month.equals("March")){
+            return 3;
+        }
+        else if(month.equals("April")){
+            return 4;
+        }
+        else if(month.equals("May")){
+            return 5;
+        }
+        else if(month.equals("June")){
+            return 6;
+        }
+        else if(month.equals("July")){
+            return 7;
+        }
+        else if(month.equals("August")){
+            return 8;
+        }
+        else if(month.equals("September")){
+            return 9;
+        }
+        else if(month.equals("October")){
+            return 10;
+        }
+        else if(month.equals("November")){
+            return 11;
+        }
+        else if(month.equals("December")){
+            return 12;
+        }
+        return 0;
 
+    }
 
 }

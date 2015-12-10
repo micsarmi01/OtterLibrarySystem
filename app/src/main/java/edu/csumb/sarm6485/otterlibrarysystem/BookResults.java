@@ -72,14 +72,25 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
 
             System.out.println("getAll index: " + fifteen[0]);
 
-            for (int i = pickUpDayOfYear; i < dropOffDayOfYear; i++) {
-
-                if(fifteen[i].equals("1")){
+            if(pickUpDayOfYear==dropOffDayOfYear){
+                if(fifteen[pickUpDayOfYear].equals("1")){
                     System.out.println("getAll has one");
                     bookAvaialble = false;
                     break;
                 }
             }
+            else{
+                for (int i = pickUpDayOfYear; i < dropOffDayOfYear; i++) {
+
+                    if(fifteen[i].equals("1")){
+                        System.out.println("getAll has one");
+                        bookAvaialble = false;
+                        break;
+                    }
+                }
+            }
+
+
 
             if(bookAvaialble){
                 availableBooks.add(new Book(book));
@@ -90,6 +101,21 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
         TextView main = (TextView) findViewById(R.id.main);
         ArrayList<String> titles = new ArrayList<>();
 
+        if(availableBooks.size()<=0){
+            AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+            dlgAlert.setMessage("No Books Available for Dates and/or Timeframe.\n Press ok to return to main menu!");
+            dlgAlert.setTitle("Otter Library System");
+            dlgAlert.setPositiveButton("OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent I = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(I);
+                        }
+                    });
+            dlgAlert.setCancelable(true);
+            dlgAlert.create().show();
+        }
+
         System.out.print("getAll available books: " + availableBooks.size());
         for(int i =0; i<availableBooks.size();i++){
             System.out.print("Title: " + availableBooks.get(i).getTitle() + " ");
@@ -99,7 +125,7 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
         }
 
 
-        //Month Spinner
+        //Books Spinner
 
         Spinner spinner = (Spinner) findViewById(R.id.book_spinner);
 

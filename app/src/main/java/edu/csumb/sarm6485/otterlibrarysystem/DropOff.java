@@ -244,7 +244,7 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
             int currentYear = calendar.get(Calendar.YEAR);
 
             //
-            if(pulledPickUpDayOfYear<359&&!(year.equals("2016"))) {
+            if(pulledPickUpDayOfYear<=365&&!(year.equals("2016"))) {
                 int difference = dayNumber - pulledPickUpDayOfYear;
                 System.out.println("choice This is the difference: " + difference);
                 //if the days difference is 7 and hours chosen is greater or past the hours chosen OT
