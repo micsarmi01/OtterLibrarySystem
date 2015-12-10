@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class Confirm extends Activity implements View.OnClickListener {
@@ -81,16 +82,36 @@ public class Confirm extends Activity implements View.OnClickListener {
 
             ArrayList<Book> books = new ArrayList<>(db.getAllBooks());
 
-            Bundle passedExtras = getIntent().getExtras();
-            int rentalHours = passedExtras.getInt("rentalHours");
-            int pickUpDayOfYear = passedExtras.getInt("pickUpDayOfYear");
-            int dropOffDayOfYear= passedExtras.getInt("dropOffDayOfYear");
-            String pickUpYear= passedExtras.getString("pickUpYear");
-            String dropOffYear = passedExtras.getString("dropOffYear");
-            String loggedUsername = passedExtras.getString("username");
-            int loggedId = passedExtras.getInt("id");
-            String bookTitle = passedExtras.getString("title");
-            double rentalTotal = passedExtras.getDouble("rentalTotal");
+            //***GET PASSED INFO***
+            Bundle extras= getIntent().getExtras();
+            //PickUp
+            int pickUpDayOfYear = extras.getInt("pickUpDayOfYear");
+            String pickUpYearYear = extras.getString("pickUpYear");
+            String pickUpMonth = extras.getString("pickUpMonth");
+            String pickUpDay = extras.getString("pickUpDay");
+            String pickUpHour = extras.getString("pickUpHour");
+            String pickUpAmPm = extras.getString("pickUpAmPm");
+            //DropOff
+            int dropOffDayOfYear = extras.getInt("dropOffDayOfYear");
+            String dropOffYear = extras.getString("dropOffYear");
+            String dropOffMonth = extras.getString("dropOffMonth");
+            String dropOffDay = extras.getString("dropOffDay");
+            String dropOffHour = extras.getString("dropOffHour");
+            String dropOffAmPm = extras.getString("dropOffAmPm");
+            //Transaction
+            int rentalHours = extras.getInt("rentalHours");
+            String loggedUsername = extras.getString("username");
+            int loggedId = extras.getInt("id");
+            String bookTitle = extras.getString("title");
+            double rentalTotal = extras.getDouble("rentalTotal");
+
+            //Transaction DT for Pickup
+            String pickUpDateTime;
+            pickUpDateTime = pickUpMonth +"/" + pickUpDay + "/" + pickUpDayOfYear + " (" + pickUpHour +" "+ pickUpAmPm + ")";
+            //Transaction DT for Dropoff
+            String dropOffDateTime;
+            dropOffDateTime = dropOffMonth +"/" + dropOffDay + "/" + dropOffDayOfYear + " (" + dropOffHour +" "+ dropOffAmPm + ")";
+
 
             //find the book in the array by title
 
@@ -111,6 +132,14 @@ public class Confirm extends Activity implements View.OnClickListener {
                     db.updateBook(books.get(i));
                 }
             }
+
+            //public Transaction(String username, int type, double rentalCost, String title, String date,
+            //String time, String pickUpDate, String dropOffDate)
+
+            TimeStamp timeStamp = new TimeStamp();
+            Transaction transaction = new Transaction(loggedUsername, 1, rentalTotal, bookTitle, timeStamp.getDate(),
+                    timeStamp.getTime(), pickUpDateTime, dropOffDateTime);
+            db.addTransaction(transaction);
             startActivity(I);
         }
 

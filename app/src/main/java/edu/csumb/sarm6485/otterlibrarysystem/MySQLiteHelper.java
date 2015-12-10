@@ -17,6 +17,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     // Table Name - books and users
     private static final String TABLE_BOOKS = "books";
     private static final String TABLE_USERS = "users";
+    private static final String TABLE_TRANSACTIONS = "transactions";
+
     // Columns Names of books Table
     private static final String KEY_ID = "id";
     private static final String KEY_TITLE = "title";
@@ -28,6 +30,16 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     //Columns Names of users table
     private static final String KEY_USERNAME = "username";
     private static final String KEY_PASSWORD = "password";
+    //Columns Names of transaction table
+    private static final String KEY_USERNAMETRAN = "username";
+    private static final String KEY_TYPE = "type";
+    private static final String KEY_RETURN = "return";
+    private static final String KEY_PICKUP = "pickup";
+    private static final String KEY_DATE = "date";
+    private static final String KEY_TIME = "username";
+    private static final String KEY_TITLETRAN = "title";
+    private static final String KEY_COST = "cost";
+
     // Database Version
     private static final int DATABASE_VERSION = 1;
 
@@ -54,11 +66,23 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         String CREATE_USER_TABLE = "CREATE TABLE users ( " +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "username TEXT, "+
-                "password Text)";
+                "password TEXT)";
+
+        String CREATE_TRANSACTION_TABLE = "CREATE TABLE transactions ( " +
+                "number INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "username TEXT, "+
+                "type TEXT, "+
+                "title TEXT, "+
+                "pickup TEXT, " +
+                "return TEXT, " +
+                "cost REAL, " +
+                "date TEXT, " +
+                "time TEXT)";
 
         // execute an SQL statement to create the table
         db.execSQL(CREATE_BOOK_TABLE);
         db.execSQL(CREATE_USER_TABLE);
+        db.execSQL(CREATE_TRANSACTION_TABLE);
     }
 
     // onUpdate() is invoked when you upgrade the database scheme.
@@ -68,6 +92,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // Drop older books table if existed
         db.execSQL("DROP TABLE IF EXISTS books");
         db.execSQL("DROP TABLE IF EXISTS users");
+        db.execSQL("DROP TABLE IF EXISTS transactions");
         // create fresh books and users table
         this.onCreate(db);
     }
@@ -247,6 +272,93 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         Log.d(TAG, "deleteUser() - " + user.toString());
     }
+
+    //*****************METHODS FOR TRANSACTIONS TABLE***********************
+
+    public void addTransaction(Transaction transaction){
+        Log.d(TAG, "addTransaction() - " + transaction.toString());
+        // 1. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        /*"number INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "username TEXT, "+
+                "type TEXT, "+
+                "title TEXT, "+
+                "pickup TEXT, " +
+                "return TEXT, " +
+                "price REAL, " +
+                "date TEXT, " +
+                "time Text)";*
+        */
+
+        // 2. create ContentValues to add key "column"/value
+        ContentValues values = new ContentValues();
+        values.put(KEY_USERNAMETRAN, transaction.getUsername());
+        values.put(KEY_TYPE, transaction.getType());
+        values.put(KEY_TITLETRAN, transaction.getTitle());
+        values.put(KEY_PICKUP, transaction.getPickUpDate());
+        values.put(KEY_RETURN, transaction.getDropOffDate());
+        values.put(KEY_COST, transaction.getRentalCost());
+        values.put(KEY_DATE, transaction.getDate());
+        values.put(KEY_TIME, transaction.getTime());
+
+
+
+        // 3. insert to table
+        db.insert(TABLE_TRANSACTIONS, // table
+                null, //nullColumnHack
+                values); // key/value -> keys = column names/ values = column values
+
+        // 4. close - release the reference of writable DB
+        db.close();
+    }
+
+    // Get all transactions from the database
+    public ArrayList<Transaction> getAllTransactions() {
+        ArrayList<Transaction> transactions = new ArrayList<>();
+
+        // 1. build the query
+        String query = "SELECT  * FROM " + TABLE_TRANSACTIONS;
+
+        // 2. get reference to writable DB
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        // 3. go over each row, build book and add it to list
+        /*"username TEXT, "+
+                "type TEXT, "+
+                "title TEXT, "+
+                "pickup TEXT, " +
+                "return TEXT, " +
+                "price REAL, " +
+                "date TEXT, " +
+                "time Text)";*/
+        Transaction transaction = null;
+        if (cursor.moveToFirst()) {
+            do {
+                transaction= new Transaction();
+                transaction.setId(Integer.parseInt(cursor.getString(0)));
+                transaction.setUsername(cursor.getString(1));
+                transaction.setType(cursor.getString(2));
+                transaction.setTitle(cursor.getString(3));
+                transaction.setPickUpDate(cursor.getString(4));
+                transaction.setDropOffDate(cursor.getString(5));
+                transaction.setRentalCost(Double.parseDouble(cursor.getString(6)));
+                transaction.setDate(cursor.getString(7));
+                transaction.setTime(cursor.getString(8));
+
+                // Add book to books
+                transactions.add(transaction);
+            } while (cursor.moveToNext());
+        }
+
+        Log.d(TAG, "getAllTransactions() - " + transactions.toString());
+
+        // return books
+        return transactions;
+    }
+
+
 
 
 }

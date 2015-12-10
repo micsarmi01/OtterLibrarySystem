@@ -194,15 +194,26 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
 
             Intent I = new Intent(getApplicationContext(), Confirm.class);
 
-            //get passed info
-            Bundle passedExtras = getIntent().getExtras();
-            int rentalHours = passedExtras.getInt("rentalHours");
-            int pickUpDayOfYear = passedExtras.getInt("pickUpDayOfYear");
-            int dropOffDayOfYear= passedExtras.getInt("dropOffDayOfYear");
-            String pickUpYear= passedExtras.getString("pickUpYear");
-            String dropOffYear = passedExtras.getString("dropOffYear");
-            String loggedUsername = passedExtras.getString("username");
-            int loggedId = passedExtras.getInt("id");
+            //***GET PASSED INFO***
+            Bundle extras= getIntent().getExtras();
+            //PickUp
+            int pulledPickUpDayOfYear = extras.getInt("pickUpDayOfYear");
+            String pulledYear = extras.getString("pickUpYear");
+            String pickUpMonth = extras.getString("pickUpMonth");
+            String pickUpDay = extras.getString("pickUpDay");
+            String pulledPickUpHour = extras.getString("pickUpHour");
+            String pulledPickUpAmPm = extras.getString("pickUpAmPm");
+            //DropOff
+            int dropOffDayOfYear = extras.getInt("dropOffDayOfYear");
+            String dropOffYear = extras.getString("dropOffYear");
+            String dropOffMonth = extras.getString("dropOffMonth");
+            String dropOffDay = extras.getString("dropOffDay");
+            String dropOffHour = extras.getString("dropOffHour");
+            String dropOffAmPm = extras.getString("dropOffAmPm");
+            //Transaction
+            int rentalHours = extras.getInt("rentalHours");
+            String loggedUsername = extras.getString("username");
+            int loggedId = extras.getInt("id");
 
 
             //rentalTotal
@@ -210,14 +221,29 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
 
             //pass stuff to results
             Bundle extraInfo = new Bundle();
+
             extraInfo.putInt("rentalHours", rentalHours);
-            extraInfo.putInt("pickUpDayOfYear", pickUpDayOfYear);
+
+            //pick up data
+            extraInfo.putInt("pickUpDayOfYear", pulledPickUpDayOfYear);
+            extraInfo.putString("pickUpMonth", pickUpMonth);
+            extraInfo.putString("pickUpDay", pickUpDay);
+            extraInfo.putString("pickUpYear", pulledYear);
+            extraInfo.putString("pickUpHour", pulledPickUpHour);
+            extraInfo.putString("pickUpAmPm", pulledPickUpAmPm);
+
+            //Drop off data
             extraInfo.putInt("dropOffDayOfYear", dropOffDayOfYear);
-            extraInfo.putString("pickUpYear", pickUpYear);
             extraInfo.putString("dropOffYear", dropOffYear);
+            //System.out.println("dropOffYear " + year);
+            extraInfo.putString("dropOffMonth", dropOffMonth);
+            extraInfo.putString("dropOffDay", dropOffDay);
+            extraInfo.putString("dropOffHour", dropOffHour);
+            extraInfo.putString("dropOffAmPm", dropOffAmPm);
+
+            //transaction stuff
             extraInfo.putString("username", loggedUsername );
             extraInfo.putInt("id", loggedId);
-            extraInfo.putInt("bookId", 1);
             extraInfo.putString("title", bookTitle);
             extraInfo.putDouble("rentalTotal", rentalTotal);
 

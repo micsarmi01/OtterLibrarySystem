@@ -221,9 +221,13 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
 
             //pull from class placehold
             Bundle extrasPlaceHold = getIntent().getExtras();
+            //date
             String pulledYear = extrasPlaceHold.getString("pickUpYear");
-            System.out.println("pickUpYear" + pulledYear);
+            String pickUpMonth = extrasPlaceHold.getString("pickUpMonth");
+            String pickUpDay = extrasPlaceHold.getString("pickUpDay");
+            //day of year
             int pulledPickUpDayOfYear = extrasPlaceHold.getInt("pickUpDayOfYear");
+            //hour
             String pulledPickUpHour = extrasPlaceHold.getString("pickUpHour");
             String pulledPickUpAmPm = extrasPlaceHold.getString("pickUpAmPm");
 
@@ -279,7 +283,6 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
                         //if difference and time are good go to bookResults
                         Intent I = new Intent(getApplicationContext(), LoginHold.class);
 
-
                         //pass all important info
                         //pick up day/drop off day
                         //rental length
@@ -288,13 +291,26 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
                         System.out.println("rentalHours" + rentalHours);
 
                         Bundle extraInfo = new Bundle();
+                        //How many hour total
                         extraInfo.putInt("rentalHours", rentalHours);
+
+                        //Pick up
                         extraInfo.putInt("pickUpDayOfYear", pulledPickUpDayOfYear);
-                        extraInfo.putInt("dropOffDayOfYear", dayNumber);
+                        extraInfo.putString("pickUpMonth", pickUpMonth);
+                        extraInfo.putString("pickUpDay", pickUpDay);
                         extraInfo.putString("pickUpYear", pulledYear);
-                        System.out.println("pickUpYear " + pulledYear);
+                        extraInfo.putString("pickUpHour", pulledPickUpHour);
+                        extraInfo.putString("pickUpAmpm", pulledPickUpAmPm);
+
+                        //Drop off
+                        extraInfo.putInt("dropOffDayOfYear", dayNumber);
                         extraInfo.putString("dropOffYear", year);
-                        System.out.println("dropOffYear " + year);
+                        //System.out.println("dropOffYear " + year);
+                        extraInfo.putString("dropOffMonth", month);
+                        extraInfo.putString("dropOffDay", day);
+                        extraInfo.putString("dropOffHour" , hour);
+                        extraInfo.putString("dropOffAmpm", ampm);
+
                         //extraInfo.putString("result2", input2);
                         I.putExtras(extraInfo);
 
@@ -345,21 +361,6 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
                 dlgAlert.create().show();
             }
 
-
-
-
-            //number renthours passed for rental cost days + time
-
-            /*
-            Intent I = new Intent(getApplicationContext(), BookResults.class);
-            Bundle extraInfo = new Bundle();
-            extraInfo.putString("pickUpMonth", month);
-            extraInfo.putString("pickUpDay", day);
-            extraInfo.putString("pickUpYear", year);
-            extraInfo.putString("pickUpHour", hour);
-            extraInfo.putString("pickUpAmPm", ampm);
-            I.putExtras(extraInfo);
-            startActivity(I);*/
         }
 
     }

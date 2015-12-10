@@ -108,22 +108,44 @@ public class LoginHold extends Activity implements View.OnClickListener {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent I = new Intent(getApplicationContext(), BookResults.class);
 
-                                    //get passed info
-                                    Bundle passedExtras = getIntent().getExtras();
-                                    int rentalHours = passedExtras.getInt("rentalHours");
-                                    int pickUpDayOfYear = passedExtras.getInt("pickUpDayOfYear");
-                                    int dropOffDayOfYear= passedExtras.getInt("dropOffDayOfYear");
-                                    String pickUpYear= passedExtras.getString("pickUpYear");
-                                    String dropOffYear = passedExtras.getString("dropOffYear");
+                                    //***GET PASSED INFO***
+                                    Bundle extras= getIntent().getExtras();
+                                    int rentalHours = extras.getInt("rentalHours");
+                                    //PickUp
+                                    int pulledPickUpDayOfYear = extras.getInt("pickUpDayOfYear");
+                                    String pulledYear = extras.getString("pickUpYear");
+                                    String pickUpMonth = extras.getString("pickUpMonth");
+                                    String pickUpDay = extras.getString("pickUpDay");
+                                    String pulledPickUpHour = extras.getString("pickUpHour");
+                                    String pulledPickUpAmPm = extras.getString("pickUpAmPm");
+                                    //DropOff
+                                    int dropOffDayOfYear = extras.getInt("dropOffDayOfYear");
+                                    String dropOffYear = extras.getString("dropOffYear");
+                                    String dropOffMonth = extras.getString("dropOffMonth");
+                                    String dropOffDay = extras.getString("dropOffDay");
+                                    String dropOffHour = extras.getString("dropOffHour");
+                                    String dropOffAmPm = extras.getString("dropOffAmPm");
 
 
-                                    //pass stuff to results
+                                    //***PASS INFO TO RESULTS***
                                     Bundle extraInfo = new Bundle();
-                                    extraInfo.putInt("rentalHours", rentalHours);
-                                    extraInfo.putInt("pickUpDayOfYear", pickUpDayOfYear);
+                                    //Pick up
+                                    extraInfo.putInt("pickUpDayOfYear", pulledPickUpDayOfYear);
+                                    extraInfo.putString("pickUpMonth", pickUpMonth);
+                                    extraInfo.putString("pickUpDay", pickUpDay);
+                                    extraInfo.putString("pickUpYear", pulledYear);
+                                    extraInfo.putString("pickUpHour", pulledPickUpHour);
+                                    extraInfo.putString("pickUpAmPm", pulledPickUpAmPm);
+                                    //Drop off
                                     extraInfo.putInt("dropOffDayOfYear", dropOffDayOfYear);
-                                    extraInfo.putString("pickUpYear", pickUpYear);
                                     extraInfo.putString("dropOffYear", dropOffYear);
+                                        System.out.println("dropOffYear " + dropOffYear);
+                                    extraInfo.putString("dropOffMonth", dropOffMonth);
+                                    extraInfo.putString("dropOffDay", dropOffDay);
+                                    extraInfo.putString("dropOffHour", dropOffHour);
+                                    extraInfo.putString("dropOffAmPm", dropOffAmPm);
+                                    //transactionStuff
+                                    extraInfo.putInt("rentalHours", rentalHours);
                                     extraInfo.putString("username", loggedUsername );
                                     extraInfo.putInt("id", loggedId);
                                     I.putExtras(extraInfo);

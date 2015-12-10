@@ -9,25 +9,39 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ManageSystem extends Activity implements View.OnClickListener {
+public class Log extends Activity implements View.OnClickListener {
+
+    // create a database for the app
+    MySQLiteHelper db = new MySQLiteHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.managesystem);
+        setContentView(R.layout.inventory);
 
-        View logButton = findViewById(R.id.log_button);
-        logButton.setOnClickListener(this);
+        TextView main = (TextView) findViewById(R.id.maininventory);
 
-        View addBookButton = findViewById(R.id.addbook_button);
-        addBookButton.setOnClickListener(this);
+        ArrayList<Transaction> transactions = new ArrayList<>(db.getAllTransactions());
 
-        View inventoryButton = findViewById(R.id.inventory_button);
-        inventoryButton.setOnClickListener(this);
+        for(Transaction transaction: transactions){
+            main.append("Transaction Number: " + transaction.getId());
+            main.append("\nUsername: " + transaction.getUsername());
+            main.append("\nTransaction Type: " + transaction.getType());
+            main.append("\nPick Up: " + transaction.getPickUpDate());
+            main.append("\nReturn: " + transaction.getDropOffDate());
+            main.append("\nTransaction Date: " + transaction.getDate());
+            main.append("\nTransaction Time: " + transaction.getUsername());
+
+        }
+
+        db.getAllBooks();
+
 
     }
 
@@ -55,18 +69,7 @@ public class ManageSystem extends Activity implements View.OnClickListener {
 
     public void onClick(View v) {
 
-        if (v.getId() == R.id.log_button) {
-            Intent I = new Intent(getApplicationContext(), Log.class);
-            startActivity(I);
-        }
-        else if (v.getId() == R.id.addbook_button) {
-            Intent I = new Intent(getApplicationContext(), AddBook.class);
-            startActivity(I);
-        }
-        else  if(v.getId() == R.id.inventory_button) {
-            Intent I = new Intent(getApplicationContext(), Inventory.class);
-            startActivity(I);
-        }
+
 
     }
 

@@ -1,7 +1,156 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
 
 /**
- * Created by michaelsarmiento on 12/7/15.
+ * Title: Transaction.java
+ * Abstract: This program allows users to administrate a bank. This class controls the
+ *  transaction portion of the bank. It creates the transaction object and maintains its variables.
+ * Author: Michael Sarmiento
+ * ID: 7101
+ * Date: 10-06-2015
  */
+
+import java.text.NumberFormat;
+
 public class Transaction {
+    private String username;
+    private int type;
+    private double rentalCost;
+    private String date;
+    private String time;
+    private String typePrint;
+    private String pickUpDate;
+    private String dropOffDate;
+    private String title;
+    private int id;
+
+    NumberFormat formatter = NumberFormat.getCurrencyInstance();
+
+    public Transaction(){}
+
+    public Transaction(String username, int type, double rentalCost, String date, String time){
+        this.username = username;
+        this.type = type;
+        this.rentalCost = rentalCost;
+        this.date = date;
+        this.time = time;
+
+        if(type==1){
+            typePrint = "Rental" + "(" + formatter.format(rentalCost) + ")";
+        }
+        else if(type==2){
+            typePrint = "Cancel Hold";
+        }
+        else if(type==3){
+            typePrint = "Create Account";
+        }
+    }
+
+    //constructor for book rental
+    public Transaction(String username, int type, double rentalCost, String title, String date,
+                                String time, String pickUpDate, String dropOffDate){
+
+        this.username = username;
+        this.type = type;
+        this.rentalCost = rentalCost;
+        this.date = date;
+        this.time = time;
+        this.pickUpDate = pickUpDate;
+        this.dropOffDate = dropOffDate;
+        this.title = title;
+
+        if(type==1){
+            typePrint = "Rental" + "(" + formatter.format(rentalCost) + ")";
+        }
+        else if(type==2){
+            typePrint = "Cancel Hold";
+        }
+        else if(type==3){
+            typePrint = "Create Account";
+        }
+
+    }
+
+    //constructor for all other transaction types
+    public Transaction(String username, int type,  String date, String time){
+        this.username = username;
+        this.type = type;
+        this.date = date;
+        this.time = time;
+    }
+
+    public String toString(){
+        return "- Username: "+ username + "\nType:" + typePrint +"\n "+ date +", "+ time;
+    }
+
+    //**********Getters****************
+    public String getUsername(){
+        return username;
+    }
+
+    public String getType(){
+        return typePrint;
+    }
+
+    public double getRentalCost(){
+        return rentalCost;
+    }
+
+    public String getDate(){
+        return date;
+    }
+
+    public String getTime(){
+        return time;
+    }
+
+    public String getTitle(){
+        return title;
+    }
+
+    public String getPickUpDate(){
+        return pickUpDate;
+    }
+
+    public String getDropOffDate(){
+        return dropOffDate;
+    }
+
+    public int getId(){
+        return id;
+    }
+
+    //*************Setters***************
+    public void setUsername(String username){
+        this.username = username;
+    }
+
+    public void setType(String type){
+        this.typePrint= type;
+    }
+
+    public void setRentalCost(Double rentalCost){
+        this.rentalCost=rentalCost;
+    }
+
+    public void setDate(String date){
+        this.date=date;
+    }
+
+    public void setTime(String time){
+        this.time = time;
+    }
+
+    public void setTitle(String title){
+        this.title = title;
+    }
+
+    public void setPickUpDate(String pickUpDate){
+        this.pickUpDate=pickUpDate;
+    }
+
+    public void setDropOffDate(String dropOffDate){
+        this.dropOffDate=dropOffDate;
+    }
+
+    public void setId(int id){this.id=id;}
 }

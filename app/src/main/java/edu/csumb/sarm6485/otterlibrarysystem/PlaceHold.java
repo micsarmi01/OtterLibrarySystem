@@ -238,6 +238,8 @@ public class PlaceHold extends Activity implements View.OnClickListener, Adapter
             Bundle extraInfo = new Bundle();
 
             extraInfo.putInt("pickUpDayOfYear", dayNumber);
+            extraInfo.putString("pickUpMonth", month);
+            extraInfo.putString("pickUpDay", day);
             extraInfo.putString("pickUpYear", year);
             extraInfo.putString("pickUpHour", hour);
             extraInfo.putString("pickUpAmPm", ampm);
