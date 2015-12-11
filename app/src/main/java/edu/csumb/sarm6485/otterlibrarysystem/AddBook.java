@@ -5,21 +5,18 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Toast;
-
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class AddBook extends Activity implements View.OnClickListener {
 
     // create a database for the app
     MySQLiteHelper db = new MySQLiteHelper(this);
+    ArrayList<Book> books;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +26,7 @@ public class AddBook extends Activity implements View.OnClickListener {
         View addBookButton = findViewById(R.id.addbook_button);
         addBookButton.setOnClickListener(this);
 
+        books = new ArrayList<>(db.getAllBooks());
     }
 
     @Override
@@ -80,27 +78,20 @@ public class AddBook extends Activity implements View.OnClickListener {
 
 
         boolean containsDec = false;
-
+        boolean bookExists = false;
         if (v.getId() == R.id.addbook_button) {
 
-            for(int i=0; i< cost.length();i++){
-                if(cost.charAt(i)=='.'){
-                    containsDec = true;
+
+            for (Book book : books) {
+                if (book.getIsbn().equals(isbn)) {
+                    bookExists = true;
                     break;
                 }
-
-
             }
-            if(containsDec){
-                price = Double.parseDouble(cost);
 
-                Book addBook = new Book(title, author, isbn, price);
-
-                db.addBook(addBook);
-
+            if (bookExists) {
                 AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-                dlgAlert.setMessage("Successfully added book, Check Inventory ");
-                dlgAlert.setTitle("Otter Library System");
+                dlgAlert.setMessage("Information is not valid, book already exists");
                 dlgAlert.setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -110,24 +101,48 @@ public class AddBook extends Activity implements View.OnClickListener {
                         });
                 dlgAlert.setCancelable(true);
                 dlgAlert.create().show();
-                
             }
             else{
-                AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-                dlgAlert.setMessage("Sorry The cost is invalid! Needs a Decimal");
-                dlgAlert.setTitle("Otter Library System");
-                dlgAlert.setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
+                for (int i = 0; i < cost.length(); i++) {
+                    if (cost.charAt(i) == '.') {
+                        containsDec = true;
+                        break;
+                    }
+                }
+                if (containsDec) {
+                    price = Double.parseDouble(cost);
 
-                            }
-                        });
-                dlgAlert.setCancelable(true);
-                dlgAlert.create().show();
+                    Book addBook = new Book(title, author, isbn, price);
+
+                    db.addBook(addBook);
+
+                    AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+                    dlgAlert.setMessage("Successfully added book, Check Inventory ");
+                    dlgAlert.setTitle("Otter Library System");
+                    dlgAlert.setPositiveButton("OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent I = new Intent(getApplicationContext(), ManageSystem.class);
+                                    startActivity(I);
+                                }
+                            });
+                    dlgAlert.setCancelable(true);
+                    dlgAlert.create().show();
+
+                } else {
+                    AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+                    dlgAlert.setMessage("Sorry The cost is invalid! Needs a Decimal");
+                    dlgAlert.setTitle("Otter Library System");
+                    dlgAlert.setPositiveButton("OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+                    dlgAlert.setCancelable(true);
+                    dlgAlert.create().show();
+                }
             }
-
         }
-
     }
-
 }

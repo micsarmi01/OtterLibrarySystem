@@ -73,7 +73,7 @@ public class Transaction {
             typePrint = "Cancel Hold";
         }
         else if(type==3){
-            typePrint = "Create Account";
+            typePrint = "New Account";
         }
 
     }
@@ -90,7 +90,7 @@ public class Transaction {
             typePrint = "Cancel Hold";
         }
         else if(type==3){
-            typePrint = "Create Account";
+            typePrint = "New Account";
         }
     }
 

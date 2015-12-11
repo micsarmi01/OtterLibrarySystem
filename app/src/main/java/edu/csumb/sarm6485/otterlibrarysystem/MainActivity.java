@@ -52,9 +52,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
             User alice = new User("@csit100","a@lice5");
             User brian = new User("123abc##","$brian7");
             User chris = new User("CHRIS12!!","!chris12!");
+            User admin = new User("!admin2", "!admin2");
             db.addUser(alice);
             db.addUser(brian);
             db.addUser(chris);
+            db.addUser(admin);
 
 
         }
@@ -99,7 +101,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             startActivity(I);
         }
         else if (v.getId() == R.id.managesystem_button) {
-            Intent I = new Intent(getApplicationContext(),ManageSystem.class);
+            Intent I = new Intent(getApplicationContext(),LoginAdmin.class);
             startActivity(I);
         }
 

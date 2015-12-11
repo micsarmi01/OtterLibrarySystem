@@ -19,6 +19,7 @@ public class CreateClass extends Activity implements View.OnClickListener {
 
     // create a database for the app
     MySQLiteHelper db = new MySQLiteHelper(this);
+    public int tryFail = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,11 +92,12 @@ public class CreateClass extends Activity implements View.OnClickListener {
 
 
             }
-            else if(!userDuplicateCheck(input1)){
+            else if(!userDuplicateCheck(input1)&&tryFail<2){
+
+                tryFail++;
 
                 AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-                dlgAlert.setMessage("Username already Exists, Try again.");
-                dlgAlert.setTitle("Otter Library System");
+                dlgAlert.setMessage("Username already Exists, Try once more.");
                 dlgAlert.setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -105,14 +107,28 @@ public class CreateClass extends Activity implements View.OnClickListener {
                 dlgAlert.setCancelable(true);
                 dlgAlert.create().show();
             }
-            else{
+            else if(!userDuplicateCheck(input1)&&tryFail==2){
+
                 AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-                dlgAlert.setMessage("Your Username or Password are not correctly formatted! Please Retry!");
-                dlgAlert.setTitle("Otter Library System");
+                dlgAlert.setMessage("Username already Exists.");
                 dlgAlert.setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-
+                                Intent I = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(I);
+                            }
+                        });
+                dlgAlert.setCancelable(true);
+                dlgAlert.create().show();
+            }
+            else{
+                AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+                dlgAlert.setMessage("Your Username or Password are not correctly formatted!");
+                dlgAlert.setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent I = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(I);
 
                             }
                         });
