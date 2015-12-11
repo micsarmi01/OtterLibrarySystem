@@ -37,7 +37,7 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bookresults);
 
-        View test = findViewById(R.id.test);
+        View test = findViewById(R.id.choosedate_button);
         test.setOnClickListener(this);
 
         System.out.println("Results: Passed info");
@@ -214,7 +214,7 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
 
     public void onClick(View v) {
 
-        if (v.getId() == R.id.test){
+        if (v.getId() == R.id.choosedate_button){
 
             Spinner spinner = (Spinner) findViewById(R.id.book_spinner);
             String bookTitle = spinner.getSelectedItem().toString();

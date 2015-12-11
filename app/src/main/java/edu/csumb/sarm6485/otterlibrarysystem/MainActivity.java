@@ -7,8 +7,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.ArrayList;
+
 
 public class MainActivity extends Activity implements View.OnClickListener {
+    // create a database for the app
+    MySQLiteHelper db = new MySQLiteHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +34,31 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         //add users to db
         //add user to admin db
-        //add transactions
+        //add books
 
+        ArrayList<Book> books = new ArrayList<>(db.getAllBooks());
+        ArrayList<User> users = new ArrayList<>(db.getAllUsers());
+
+        if(books.size()<1){
+            Book hotJava = new Book("Hot Java", "S. Narayanan", "123-ABC-101", 0.05);
+            Book funJava = new Book("Fun Java", "Y. Bun", "ABCDEF-09", 1.00);
+            Book algorithm = new Book("Algorithm for Java", "K. Alice", "CDE-777-123", 0.25 );
+            db.addBook(hotJava);
+            db.addBook(funJava);
+            db.addBook(algorithm);
+        }
+
+        if(users.size()<1){
+            User alice = new User("@csit100","a@lice5");
+            User brian = new User("123abc##","$brian7");
+            User chris = new User("CHRIS12!!","!chris12!");
+            db.addUser(alice);
+            db.addUser(brian);
+            db.addUser(chris);
+
+
+        }
+        System.out.println("TESTTEST " + db.getAllUsers());
     }
 
     @Override

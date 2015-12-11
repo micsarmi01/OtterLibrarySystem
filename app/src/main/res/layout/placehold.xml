@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/bg1"
     android:layout_height="match_parent">
 
     <ImageView
@@ -18,7 +18,7 @@
         android:text="Choose Pick Up Date"
         android:id="@+id/textView"
         android:gravity="center|center_vertical|center_horizontal"
-        android:textColor="#ffffff"
+        android:textColor="#000000"
         android:textSize="16pt"
         android:typeface="normal"
         android:layout_gravity="center_horizontal" />

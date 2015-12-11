@@ -3,7 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <color name="white">#484448</color>
+    <color name="white">#ffffff</color>
 
     <string-array name="month">
         <item>January</item>

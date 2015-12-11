@@ -73,7 +73,7 @@ public class LoginHold extends Activity implements View.OnClickListener {
 
             if(checkFormat(input1)&&checkFormat(input2)) {
 
-                User user = new User(input1, input2);
+                User user = new User(input2, input1);
                 ArrayList<User> users = new ArrayList<User>(db.getAllUsers());
 
 
@@ -82,7 +82,7 @@ public class LoginHold extends Activity implements View.OnClickListener {
 
                 for(int i=0; i<users.size();i++){
 
-                    if(users.get(i).getUsername().equals(input1) && user.getPassword().equals(input2)){
+                    if(users.get(i).getUsername().equals(input1) && users.get(i).getPassword().equals(input2)){
 
                         contains=true;
                         if(contains){

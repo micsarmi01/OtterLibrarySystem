@@ -110,8 +110,7 @@ public class AddBook extends Activity implements View.OnClickListener {
                         });
                 dlgAlert.setCancelable(true);
                 dlgAlert.create().show();
-
-
+                
             }
             else{
                 AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
