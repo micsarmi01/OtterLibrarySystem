@@ -1,8 +1,5 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
 
-/**
- * Created by michaelsarmiento on 12/7/15.
- */
 public class Date {
     String day;
     String month;
@@ -13,28 +10,10 @@ public class Date {
         this.day = day;
         this.year = year;
     }
-
-    public Date(int month, String day, String year) {
-        if(month==1){this.month ="January";}
-        else if(month==2){this.month ="February";}
-        else if(month==3){this.month ="March";}
-        else if(month==4){this.month ="April";}
-        else if(month==5){this.month ="May";}
-        else if(month==6){this.month ="June";}
-        else if(month==7){this.month ="July";}
-        else if(month==8){this.month ="August";}
-        else if(month==9){this.month ="September";}
-        else if(month==10){this.month ="October";}
-        else if(month==11){this.month ="November";}
-        else if(month==12){this.month ="December";}
-
-
-        this.day = day;
-        this.year = year;
-    }
-
+    //Method to return the number day of the year
     public int getDayNumber() {
         int dayNumber = 0;
+        //For 2016 leap year
         if (year.equals("2016")) {
             if (month.equals("February")) {
                 dayNumber += 31;
@@ -59,7 +38,9 @@ public class Date {
             } else if (month.equals("December")) {
                 dayNumber += 335;
             }
-        } else {
+        }
+        //Non Leap Year
+        else {
             if (month.equals("February")) {
                 dayNumber += 31;
             } else if (month.equals("March")) {
@@ -83,7 +64,6 @@ public class Date {
             } else if (month.equals("December")) {
                 dayNumber += 334;
             }
-
         }
         //add day
         dayNumber += Integer.valueOf(day);

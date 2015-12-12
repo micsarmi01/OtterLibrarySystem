@@ -67,19 +67,17 @@ public class LoginHold extends Activity implements View.OnClickListener {
         cinput2 = (EditText) findViewById(R.id.password_field);
         input2 = cinput2.getText().toString();
 
-
-
         if (v.getId() == R.id.login_button) {
 
             if(checkFormat(input1)&&checkFormat(input2)) {
 
-                User user = new User(input2, input1);
-                ArrayList<User> users = new ArrayList<User>(db.getAllUsers());
+                //Get Users
+                ArrayList<User> users = new ArrayList<>(db.getAllUsers());
 
-
-
+                //Contains matching user credentials
                 boolean contains = false;
 
+                //Loop Through the list of users to see if the inputs match any
                 for(int i=0; i<users.size();i++){
 
                     if(users.get(i).getUsername().equals(input1) && users.get(i).getPassword().equals(input2)){
@@ -87,6 +85,7 @@ public class LoginHold extends Activity implements View.OnClickListener {
                         contains=true;
                         if(contains){
                             System.out.println("Contains==True");
+                            //Save logged username by creating a new user
                             loggedUser = new User(users.get(i));
                             loggedId = loggedUser.getId();
                             loggedUsername = loggedUser.getUsername();
@@ -94,20 +93,18 @@ public class LoginHold extends Activity implements View.OnClickListener {
                             break;
                         }
                     }
-
                 }
 
-
-
+                //User DB contains the login from user
                 if(contains) {
                     AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
                     dlgAlert.setMessage("Successfully Logged in");
-                    dlgAlert.setTitle("Otter Library System");
                     dlgAlert.setPositiveButton("OK",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent I = new Intent(getApplicationContext(), BookResults.class);
 
+                                    //GET AND SEND TO BOOK RESULTS
                                     //***GET PASSED INFO***
                                     Bundle extras= getIntent().getExtras();
                                     int rentalHours = extras.getInt("rentalHours");
@@ -125,7 +122,6 @@ public class LoginHold extends Activity implements View.OnClickListener {
                                     String dropOffDay = extras.getString("dropOffDay");
                                     String dropOffHour = extras.getString("dropOffHour");
                                     String dropOffAmPm = extras.getString("dropOffAmPm");
-
 
                                     //***PASS INFO TO RESULTS***
                                     Bundle extraInfo = new Bundle();
@@ -156,10 +152,10 @@ public class LoginHold extends Activity implements View.OnClickListener {
                     dlgAlert.setCancelable(true);
                     dlgAlert.create().show();
                 }
+                //Username or password incorrect
                 if(!contains) {
                     AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
                     dlgAlert.setMessage("Sorry The Account Does Not Exist or Passowrd Is Incorrect.");
-                    dlgAlert.setTitle("Otter Library System");
                     dlgAlert.setPositiveButton("OK",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
@@ -170,10 +166,10 @@ public class LoginHold extends Activity implements View.OnClickListener {
                     dlgAlert.create().show();
                 }
             }
+            //Wrong Format
             else{
                 AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
                 dlgAlert.setMessage("Your Username or Password are not correctly formatted! Please Retry!");
-                dlgAlert.setTitle("Otter Library System");
                 dlgAlert.setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -184,9 +180,9 @@ public class LoginHold extends Activity implements View.OnClickListener {
                 dlgAlert.create().show();
             }
         }
-
     }
 
+    //Check format for Login
     public boolean checkFormat(String username){
 
         ArrayList<Character> charList = new ArrayList<Character>();

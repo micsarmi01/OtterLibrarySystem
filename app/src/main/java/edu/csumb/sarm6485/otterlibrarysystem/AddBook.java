@@ -17,7 +17,6 @@ public class AddBook extends Activity implements View.OnClickListener {
     // create a database for the app
     MySQLiteHelper db = new MySQLiteHelper(this);
     ArrayList<Book> books;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,15 +79,13 @@ public class AddBook extends Activity implements View.OnClickListener {
         boolean containsDec = false;
         boolean bookExists = false;
         if (v.getId() == R.id.addbook_button) {
-
-
             for (Book book : books) {
                 if (book.getIsbn().equals(isbn)) {
                     bookExists = true;
                     break;
                 }
             }
-
+            //Check for a duplicate book in existing books
             if (bookExists) {
                 AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
                 dlgAlert.setMessage("Information is not valid, book already exists");
@@ -103,6 +100,7 @@ public class AddBook extends Activity implements View.OnClickListener {
                 dlgAlert.create().show();
             }
             else{
+                //Check if there is a decimal in the price input
                 for (int i = 0; i < cost.length(); i++) {
                     if (cost.charAt(i) == '.') {
                         containsDec = true;
@@ -111,11 +109,10 @@ public class AddBook extends Activity implements View.OnClickListener {
                 }
                 if (containsDec) {
                     price = Double.parseDouble(cost);
-
+                    //Create a new book object from inputs and update DB
                     Book addBook = new Book(title, author, isbn, price);
-
                     db.addBook(addBook);
-
+                    //Success Alert
                     AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
                     dlgAlert.setMessage("Successfully added book, Check Inventory ");
                     dlgAlert.setTitle("Otter Library System");
@@ -128,15 +125,15 @@ public class AddBook extends Activity implements View.OnClickListener {
                             });
                     dlgAlert.setCancelable(true);
                     dlgAlert.create().show();
-
-                } else {
+                }
+                //No decimal exists
+                else {
                     AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
                     dlgAlert.setMessage("Sorry The cost is invalid! Needs a Decimal");
                     dlgAlert.setTitle("Otter Library System");
                     dlgAlert.setPositiveButton("OK",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-
                                 }
                             });
                     dlgAlert.setCancelable(true);

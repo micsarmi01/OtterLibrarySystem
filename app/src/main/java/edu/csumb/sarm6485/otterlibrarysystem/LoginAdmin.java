@@ -67,16 +67,12 @@ public class LoginAdmin extends Activity implements View.OnClickListener {
         cinput2 = (EditText) findViewById(R.id.password_field);
         input2 = cinput2.getText().toString();
 
-
-
         if (v.getId() == R.id.login_button) {
 
             if(checkFormat(input1)&&checkFormat(input2)) {
 
                 User user = new User(input2, input1);
                 ArrayList<User> users = new ArrayList<User>(db.getAllUsers());
-
-
 
                 boolean contains = false;
 
@@ -97,12 +93,9 @@ public class LoginAdmin extends Activity implements View.OnClickListener {
 
                 }
 
-
-
                 if(contains) {
                     AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
                     dlgAlert.setMessage("Successfully Logged in");
-                    dlgAlert.setTitle("Otter Library System");
                     dlgAlert.setPositiveButton("OK",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
@@ -116,7 +109,6 @@ public class LoginAdmin extends Activity implements View.OnClickListener {
                 if(!contains) {
                     AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
                     dlgAlert.setMessage("Sorry The Account is not Admin or Passowrd Is Incorrect.");
-                    dlgAlert.setTitle("Otter Library System");
                     dlgAlert.setPositiveButton("OK",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
@@ -130,11 +122,9 @@ public class LoginAdmin extends Activity implements View.OnClickListener {
             else{
                 AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
                 dlgAlert.setMessage("Your Username or Password are not correctly formatted! Please Retry!");
-                dlgAlert.setTitle("Otter Library System");
                 dlgAlert.setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-
                             }
                         });
                 dlgAlert.setCancelable(true);

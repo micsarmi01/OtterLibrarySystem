@@ -33,11 +33,11 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
         View chooseButton = findViewById(R.id.choosedatedrop_button);
         chooseButton.setOnClickListener(this);
 
+        //Array For Day Spinner
         ampm[0] = "AM";
         ampm[1] = "PM";
         Spinner daySpinner = (Spinner) findViewById(R.id.day_spinner);
         Spinner spinner = (Spinner) findViewById(R.id.month_spinner);
-
         for (int i = 0; i < thirtyOneDays.length; i++) {
             thirtyOneDays[i] = Integer.toString(1 + i);
         }
@@ -55,7 +55,6 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
         }
 
         //Month Spinner
-
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.month, android.R.layout.simple_spinner_item);
@@ -68,7 +67,7 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
         System.out.println("selected: " + selected);
         spinner.setOnItemSelectedListener(this);
 
-
+        //Day Spinner
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, thirtyOneDays);
         // Specify the layout to use when the list of choices appears
@@ -105,10 +104,9 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
         // Apply the adapter to the spinner
         ampmSpinner.setAdapter(ampmAdapter);
 
-        //Listener for choose date
-
     }
 
+    //Change Days based on Month choice
     @Override
     public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
         // TODO Auto-generated method stub
@@ -140,34 +138,6 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
     @Override
     public void onNothingSelected(AdapterView<?> parentView) {
         // your code here
-    }
-
-
-    public void setDays(String month, String year) {
-        Spinner daySpinner = (Spinner) findViewById(R.id.day_spinner);
-
-        if (month.equals("January") || month.equals("March") || month.equals("May") || month.equals("July") ||
-                month.equals("August") || month.equals("October") || month.equals("December")) {
-
-            ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, thirtyOneDays);
-            dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            daySpinner.setAdapter(dayAdapter);
-        } else if (month.equals("February") && !(year.equals("2016"))) {
-            ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, twentyEightDays);
-            dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            daySpinner.setAdapter(dayAdapter);
-        } else if (month.equals("February") && year.equals("2016")) {
-            ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, twentyNineDays);
-            dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            daySpinner.setAdapter(dayAdapter);
-        } else if (month.equals("April") || month.equals("June") || month.equals("September") ||
-                month.equals("November")) {
-            ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, thirtyDays);
-            dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            daySpinner.setAdapter(dayAdapter);
-        }
-
-
     }
 
     @Override
@@ -202,8 +172,6 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
 
         if (v.getId() == R.id.choosedatedrop_button) {
 
-
-
             String month = monthSpinner.getSelectedItem().toString();
             String day = daySpinner.getSelectedItem().toString();
             String year = yearSpinner.getSelectedItem().toString();
@@ -219,7 +187,7 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
             Date date = new Date(month, day, year);
             int dayNumber = date.getDayNumber();
 
-            //pull from class placehold
+            //Gets infor passed from plachold
             Bundle extrasPlaceHold = getIntent().getExtras();
             //date
             String pulledYear = extrasPlaceHold.getString("pickUpYear");
@@ -237,13 +205,12 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
             System.out.println("Pick up Hour: " + pickHour);
             //compare date numbers if the number dif is greater than 7 days prompt user to choose
             //new date
-
             //get current year and day of year
             Calendar calendar = Calendar.getInstance();
             int dayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
             int currentYear = calendar.get(Calendar.YEAR);
 
-            //
+            //Change this for addition of 2016 Calandar 365 <- 358
             if(pulledPickUpDayOfYear<=365&&!(year.equals("2016"))) {
                 int difference = dayNumber - pulledPickUpDayOfYear;
                 System.out.println("choice This is the difference: " + difference);
@@ -263,6 +230,7 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
                         dlgAlert.setCancelable(true);
                         dlgAlert.create().show();
                     }
+                    //Same Day Rental
                     else if (dropOffHour < pickHour && difference == 0) {
                         System.out.println("choice 7day Rental exceeds time: " + (dropOffHour - pickHour));
                         AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
@@ -276,20 +244,18 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
                         dlgAlert.setCancelable(true);
                         dlgAlert.create().show();
                     }
-
+                    //Success for rental date choices
                     else {
                         System.out.println("choice This is the difference: you are in success " + difference);
 
                         //if difference and time are good go to bookResults
                         Intent I = new Intent(getApplicationContext(), LoginHold.class);
 
-                        //pass all important info
-                        //pick up day/drop off day
-                        //rental length
-                        //how many hours
+                        //Get How many rental hours for this transaction
                         int rentalHours = rentalHours(difference,pickHour,dropOffHour);
                         System.out.println("rentalHours" + rentalHours);
 
+                        //Pass info to login
                         Bundle extraInfo = new Bundle();
                         //How many hour total
                         extraInfo.putInt("rentalHours", rentalHours);
@@ -315,9 +281,9 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
                         I.putExtras(extraInfo);
 
                         startActivity(I);
-
                     }
                 }
+                //Rental Choice Exceeds Time Frame
                 else if(difference>7){
                     System.out.println("choice Rental exceeds time frame");
 
@@ -332,6 +298,7 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
                     dlgAlert.setCancelable(true);
                     dlgAlert.create().show();
                 }
+                //User chose a date before the pick up date
                 else if(difference<0){
                     System.out.println("choice Rental is before pick up date");
                     AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
@@ -346,7 +313,7 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
                     dlgAlert.create().show();
                 }
             }
-            //for dates past 360 day
+            //for dates past 360 day not active for current release
             else{
                 System.out.println("choice is past dec 24");
                 AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
@@ -364,7 +331,7 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
         }
 
     }
-
+    //Method to return The amount of total Rental Hours
     public int rentalHours(int differnce, int hourPick, int hourDrop){
         int hours=0;
         int hourDiffernce;
@@ -385,5 +352,31 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
 
         return hours;
     }
+    //Set Spinner Days
+    public void setDays(String month, String year) {
+        Spinner daySpinner = (Spinner) findViewById(R.id.day_spinner);
 
+        if (month.equals("January") || month.equals("March") || month.equals("May") || month.equals("July") ||
+                month.equals("August") || month.equals("October") || month.equals("December")) {
+
+            ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, thirtyOneDays);
+            dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            daySpinner.setAdapter(dayAdapter);
+        } else if (month.equals("February") && !(year.equals("2016"))) {
+            ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, twentyEightDays);
+            dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            daySpinner.setAdapter(dayAdapter);
+        } else if (month.equals("February") && year.equals("2016")) {
+            ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, twentyNineDays);
+            dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            daySpinner.setAdapter(dayAdapter);
+        } else if (month.equals("April") || month.equals("June") || month.equals("September") ||
+                month.equals("November")) {
+            ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, thirtyDays);
+            dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            daySpinner.setAdapter(dayAdapter);
+        }
+
+
+    }
 }

@@ -19,6 +19,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Views and Listeners
         View CreateButton = findViewById(R.id.createaccount_button);
         CreateButton.setOnClickListener(this);
 
@@ -28,13 +29,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         View cancelButton = findViewById(R.id.cancelhold_button);
         cancelButton.setOnClickListener(this);
 
-
         View manageButton = findViewById(R.id.managesystem_button);
         manageButton.setOnClickListener(this);
 
-        //add users to db
-        //add user to admin db
-        //add books
+        //Add the Books and users that should be always on the DB even at creation of APP
 
         ArrayList<Book> books = new ArrayList<>(db.getAllBooks());
         ArrayList<User> users = new ArrayList<>(db.getAllUsers());
@@ -57,10 +55,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             db.addUser(brian);
             db.addUser(chris);
             db.addUser(admin);
-
-
         }
-        System.out.println("TESTTEST " + db.getAllUsers());
     }
 
     @Override
@@ -86,7 +81,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     public void onClick(View v) {
-
 
         if (v.getId() == R.id.createaccount_button) {
             Intent I = new Intent(getApplicationContext(), CreateClass.class);

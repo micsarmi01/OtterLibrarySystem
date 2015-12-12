@@ -21,35 +21,59 @@ public class Confirm extends Activity implements View.OnClickListener {
 
     // create a database for the app
     MySQLiteHelper db = new MySQLiteHelper(this);
-
+    int reservationNumber = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.confirm);
+
+        //Reservations counter
+        ArrayList<Transaction> transactions = new ArrayList<>(db.getAllTransactions());
+        for(Transaction transaction : transactions){
+            if(transaction.getTypeNumber()==1){reservationNumber++;}
+        }
 
         View test = findViewById(R.id.confirm_button);
         test.setOnClickListener(this);
 
         TextView main = (TextView) findViewById(R.id.main);
 
-        Bundle passedExtras = getIntent().getExtras();
-        int rentalHours = passedExtras.getInt("rentalHours");
-        int pickUpDayOfYear = passedExtras.getInt("pickUpDayOfYear");
-        int dropOffDayOfYear= passedExtras.getInt("dropOffDayOfYear");
-        String pickUpYear= passedExtras.getString("pickUpYear");
-        String dropOffYear = passedExtras.getString("dropOffYear");
-        String loggedUsername = passedExtras.getString("username");
-        int loggedId = passedExtras.getInt("id");
-        String bookTitle = passedExtras.getString("title");
-        double rentalTotal = passedExtras.getDouble("rentalTotal");
+        //***GET PASSED INFO***
+        Bundle extras= getIntent().getExtras();
+        //PickUp
+        String pickUpYear = extras.getString("pickUpYear");
+        String pickUpMonth = extras.getString("pickUpMonth");
+        String pickUpDay = extras.getString("pickUpDay");
+        String pickUpHour = extras.getString("pickUpHour");
+        String pickUpAmPm = extras.getString("pickUpAmPm");
+        //DropOff
+        String dropOffYear = extras.getString("dropOffYear");
+        String dropOffMonth = extras.getString("dropOffMonth");
+        String dropOffDay = extras.getString("dropOffDay");
+        String dropOffHour = extras.getString("dropOffHour");
+        String dropOffAmPm = extras.getString("dropOffAmPm");
+        //Transaction
+        String loggedUsername = extras.getString("username");
+        String bookTitle = extras.getString("title");
+        double rentalTotal = extras.getDouble("rentalTotal");
 
+        //Transaction Date and time for Pickup
+        String pickUpDateTime;
+        pickUpDateTime = getMonthNumber(pickUpMonth) +"/" + pickUpDay + "/" + pickUpYear+ " (" + pickUpHour +" "+ pickUpAmPm + ")";
+        //Transaction Date and time for Dropoff
+        String dropOffDateTime;
+        dropOffDateTime = getMonthNumber(dropOffMonth) +"/" + dropOffDay + "/" + dropOffYear + " (" + dropOffHour +" "+ dropOffAmPm + ")";
+
+
+        //Add info for rental into details box
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         main.setText("");
-        main.append("Book Title: " + bookTitle + " \n");
         main.append("Username: " + loggedUsername + " \n");
+        main.append("Pick Up/Date Time: " + pickUpDateTime + " \n");
+        main.append("Return/Date Time: " + dropOffDateTime + " \n");
+        main.append("Book Title: " + bookTitle + " \n");
+        main.append("Reservation Number: " + reservationNumber + " \n");
         main.append("Total Rental Cost: " + formatter.format(rentalTotal) + " \n");
-
-
     }
 
     @Override
@@ -105,16 +129,15 @@ public class Confirm extends Activity implements View.OnClickListener {
             String bookTitle = extras.getString("title");
             double rentalTotal = extras.getDouble("rentalTotal");
 
-            //Transaction DT for Pickup
+            //Transaction Date and time for Pickup
             String pickUpDateTime;
             pickUpDateTime = getMonthNumber(pickUpMonth) +"/" + pickUpDay + "/" + pickUpYear+ " (" + pickUpHour +" "+ pickUpAmPm + ")";
-            //Transaction DT for Dropoff
+            //Transaction Date and time for Dropoff
             String dropOffDateTime;
             dropOffDateTime = getMonthNumber(dropOffMonth) +"/" + dropOffDay + "/" + dropOffYear + " (" + dropOffHour +" "+ dropOffAmPm + ")";
 
 
             //find the book in the array by title
-
             for(int i=0;i<books.size();i++){
                 if(books.get(i).getTitle().equals(bookTitle)){
                     System.out.println("getAll This is the book by Title: " + books.get(i).getTitle());
@@ -122,13 +145,15 @@ public class Confirm extends Activity implements View.OnClickListener {
 
                     fifteen = books.get(i).getFifteen();
 
-                    //alter the array
+                    //Alter the array of the book for the rental days
                     for (int j = pickUpDayOfYear; j < dropOffDayOfYear+1; j++) {
 
                         fifteen[j] = "1";
+                        //Set the string by passing the new array
                         books.get(i).setFifteenString(fifteen);
                     }
 
+                    //Update the book table with the fifteenString
                     db.updateBook(books.get(i));
                 }
             }
@@ -136,15 +161,17 @@ public class Confirm extends Activity implements View.OnClickListener {
             //public Transaction(String username, int type, double rentalCost, String title, String date,
             //String time, String pickUpDate, String dropOffDate)
 
+            //Create a timestamp
             TimeStamp timeStamp = new TimeStamp();
+            //Create a new transaction
             Transaction transaction = new Transaction(loggedUsername, 1, rentalTotal, bookTitle, timeStamp.getDate(),
                     timeStamp.getTime(), pickUpDateTime, dropOffDateTime, pickUpDayOfYear, dropOffDayOfYear);
-            System.out.println("TESTTESTTEST" + transaction.toString() + "USER: " + transaction.getUsername());
+            //System.out.println("TESTTESTTEST" + transaction.toString() + "USER: " + transaction.getUsername());
+
+            //add transaction
             db.addTransaction(transaction);
             startActivity(I);
         }
-
-
     }
 
     public int getMonthNumber(String month){

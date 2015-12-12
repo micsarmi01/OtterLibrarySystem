@@ -63,27 +63,27 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
 
 
 
-        System.out.println("TESTTEST getAll size:" + books.size());
+        //System.out.println("TESTTEST getAll size:" + books.size());
 
-
+        //Loop Through all books to check if it is available using the days array
         for(Book book: books) {
             boolean bookAvaialble = true;
 
             String[] fifteen = new String[book.getFifteen().length];
             fifteen = book.getFifteen();
 
-            System.out.println("getAll index: " + fifteen[0]);
+            //System.out.println("getAll index: " + fifteen[0]);
 
-
+                //if there is a one in the index book available becomes false
                 if (pickUpDayOfYear == dropOffDayOfYear) {
                     if (fifteen[pickUpDayOfYear].equals("1")) {
-                        System.out.println("TEST TEST getAll has one");
+                        //System.out.println("TEST TEST getAll has one");
                         bookAvaialble = false;
                     }
-                } else {
-
+                }
+                else {
+                    //Loop through the day of pick up and drop off and if any are one it is unavailable
                     for (int i = pickUpDayOfYear; i < dropOffDayOfYear; i++) {
-
                         if (fifteen[i].equals("1")) {
                             System.out.println("getAll has one");
                             bookAvaialble = false;
@@ -92,16 +92,16 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
                     }
                 }
 
-
-                    if (bookAvaialble) {
-                        availableBooks.add(new Book(book));
-                    }
-
+                //Book is available add to availableBooks Array
+                if (bookAvaialble) {
+                    availableBooks.add(new Book(book));
+                }
             }
 
         TextView main = (TextView) findViewById(R.id.main);
         ArrayList<String> titles = new ArrayList<>();
 
+        //If No Books are avaialable for this date display alert and go to
         if(availableBooks.size()<=0){
             AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
             dlgAlert.setMessage("No Books Available for Dates and/or Timeframe.\n Press ok to return to main menu!");
@@ -117,6 +117,7 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
             dlgAlert.create().show();
         }
 
+        //add to the titles arraylist for spinner label
         System.out.print("getAll available books: " + availableBooks.size());
         for(int i =0; i<availableBooks.size();i++){
             System.out.print("Title: " + availableBooks.get(i).getTitle() + " ");
@@ -127,9 +128,7 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
 
 
         //Books Spinner
-
         Spinner spinner = (Spinner) findViewById(R.id.book_spinner);
-
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, titles );
         // Specify the layout to use when the list of choices appears
@@ -138,14 +137,7 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
         spinner.setAdapter(dayAdapter);
         spinner.setOnItemSelectedListener(this);
 
-
-
         System.out.println("");
-
-        //choose the book you want to change the date for
-
-        //user chooses book
-        //book and dates are passed to Reserve
     }
 
     @Override
@@ -170,22 +162,22 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
         return super.onOptionsItemSelected(item);
     }
 
-
+    //When a book is selected the details change, this method does it
     @Override
     public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
         // TODO Auto-generated method stub
 
-
-
+        //Currency Format
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
 
-
         if (arg0.getId() == R.id.book_spinner) {
+            //Save the choice as a string
             Object item = arg0.getItemAtPosition(arg2);
-
             String title = item.toString();
 
+            //Loop through the available books list to see if the title matches
             for(int i=0; i<availableBooks.size(); i++){
+                //if it matches change the text of the details
                 if(availableBooks.get(i).getTitle().equals(title)){
                     TextView main = (TextView) findViewById(R.id.main);
 
@@ -210,7 +202,6 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
     public void onNothingSelected(AdapterView<?> parentView) {
         // your code here
     }
-
 
     public void onClick(View v) {
 
@@ -241,7 +232,6 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
             int rentalHours = extras.getInt("rentalHours");
             String loggedUsername = extras.getString("username");
             int loggedId = extras.getInt("id");
-
 
             //rentalTotal
             Double rentalTotal = cost*rentalHours;

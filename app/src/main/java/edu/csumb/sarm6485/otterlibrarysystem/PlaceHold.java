@@ -23,7 +23,6 @@ public class PlaceHold extends Activity implements View.OnClickListener, Adapter
     String[] thirtyDays = new String[30];
     String[] hours = new String[12];
     String[] ampm = new String[2];
-    //DaySpinner
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +32,7 @@ public class PlaceHold extends Activity implements View.OnClickListener, Adapter
         View chooseButton = findViewById(R.id.choosedate_button);
         chooseButton.setOnClickListener(this);
 
+        //Arrays for days to fill spinners
         ampm[0] = "AM";
         ampm[1] = "PM";
         Spinner daySpinner = (Spinner) findViewById(R.id.day_spinner);
@@ -55,7 +55,6 @@ public class PlaceHold extends Activity implements View.OnClickListener, Adapter
         }
 
         //Month Spinner
-
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.month, android.R.layout.simple_spinner_item);
@@ -65,10 +64,10 @@ public class PlaceHold extends Activity implements View.OnClickListener, Adapter
         spinner.setAdapter(adapter);
         String selected = spinner.getSelectedItem().toString();
 
-        System.out.println("selected: "+selected);
+        //System.out.println("selected: "+selected);
         spinner.setOnItemSelectedListener(this);
 
-
+        //Day Spinner
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, thirtyOneDays);
         // Specify the layout to use when the list of choices appears
@@ -107,6 +106,7 @@ public class PlaceHold extends Activity implements View.OnClickListener, Adapter
 
     }
 
+    //When a month is selected this method loads the amount of days for that specific month
     @Override
     public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
         // TODO Auto-generated method stub
@@ -114,23 +114,20 @@ public class PlaceHold extends Activity implements View.OnClickListener, Adapter
         Spinner yearSpinner = (Spinner) findViewById(R.id.year_spinner);
         Spinner monthSpinner = (Spinner) findViewById(R.id.month_spinner);
 
-        System.out.println("Get ID: " + arg0.getId());
-        System.out.println("This is the id" + R.id.month_spinner);
+        //System.out.println("Get ID: " + arg0.getId());
+        //System.out.println("This is the id" + R.id.month_spinner);
 
         if (arg0.getId() == R.id.month_spinner) {
             Object item = arg0.getItemAtPosition(arg2);
-
             String month = item.toString();
             String year = yearSpinner.getSelectedItem().toString();
-
+            //get
             setDays(month, year);
         }
         if (arg0.getId() == R.id.year_spinner) {
             Object item = arg0.getItemAtPosition(arg2);
-
             String year = item.toString();
             String month = monthSpinner.getSelectedItem().toString();
-
             setDays(month, year);
         }
     }
@@ -138,37 +135,6 @@ public class PlaceHold extends Activity implements View.OnClickListener, Adapter
     @Override
     public void onNothingSelected(AdapterView<?> parentView) {
         // your code here
-    }
-
-
-    public void setDays(String month, String year){
-        Spinner daySpinner = (Spinner) findViewById(R.id.day_spinner);
-
-        if(month.equals("January")||month.equals("March")||month.equals("May")||month.equals("July")||
-                month.equals("August")||month.equals("October")||month.equals("December")){
-
-            ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, thirtyOneDays);
-            dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            daySpinner.setAdapter(dayAdapter);
-        }
-        else if(month.equals("February")&&!(year.equals("2016"))){
-            ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, twentyEightDays);
-            dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            daySpinner.setAdapter(dayAdapter);
-        }
-        else if(month.equals("February")&&year.equals("2016")){
-            ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, twentyNineDays);
-            dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            daySpinner.setAdapter(dayAdapter);
-        }
-        else if(month.equals("April")||month.equals("June")||month.equals("September")||
-                month.equals("November")){
-            ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, thirtyDays);
-            dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            daySpinner.setAdapter(dayAdapter);
-        }
-
-
     }
 
     @Override
@@ -208,17 +174,21 @@ public class PlaceHold extends Activity implements View.OnClickListener, Adapter
         String hour = hourSpinner.getSelectedItem().toString();
         String ampm = ampmSpinner.getSelectedItem().toString();
 
-
+        //Create a new date to pass down to confirmation and for math to calculate cost
         Date date = new Date(month,day,year);
-
+        //Daynumber for cost calc and day save
         int dayNumber = date.getDayNumber();
         System.out.println("Day Number: " + dayNumber);
 
+
+
+        /*
+        ********************UnComment to disallow rentals before the Current Date************************
+        //
         Calendar calendar = Calendar.getInstance();
         int dayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
         int currentYear = calendar.get(Calendar.YEAR);
 
-        /*
         System.out.println("Day of the year today: " + dayOfYear);
         if(dayNumber<dayOfYear&&year.equals(Integer.toString(currentYear))){
             System.out.println("You picked a date in the past ");
@@ -234,7 +204,8 @@ public class PlaceHold extends Activity implements View.OnClickListener, Adapter
             dlgAlert.create().show();
         }
         else{*/
-            //pass the dayNumber to the Drop Off Class
+
+            //Passes All info to the next page DropOff
             Intent I = new Intent(getApplicationContext(), DropOff.class);
             Bundle extraInfo = new Bundle();
 
@@ -247,7 +218,35 @@ public class PlaceHold extends Activity implements View.OnClickListener, Adapter
             I.putExtras(extraInfo);
             startActivity(I);
         }
+    }
 
+    //This is the method that will change the days in the spinner based on month and year, accounting for leap year
+    public void setDays(String month, String year){
+        Spinner daySpinner = (Spinner) findViewById(R.id.day_spinner);
+
+        if(month.equals("January")||month.equals("March")||month.equals("May")||month.equals("July")||
+                month.equals("August")||month.equals("October")||month.equals("December")){
+
+            ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, thirtyOneDays);
+            dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            daySpinner.setAdapter(dayAdapter);
+        }
+        else if(month.equals("February")&&!(year.equals("2016"))){
+            ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, twentyEightDays);
+            dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            daySpinner.setAdapter(dayAdapter);
+        }
+        else if(month.equals("February")&&year.equals("2016")){
+            ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, twentyNineDays);
+            dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            daySpinner.setAdapter(dayAdapter);
+        }
+        else if(month.equals("April")||month.equals("June")||month.equals("September")||
+                month.equals("November")){
+            ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, thirtyDays);
+            dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            daySpinner.setAdapter(dayAdapter);
+        }
 
 
     }

@@ -9,6 +9,7 @@ public class Book {
     private String isbn;
     private String[] fifteen = new String[366];
     private String[] sixteen = new String[367];
+    //Arrays Converted to string
     private String sixteenString ="";
     private String fifteenString="";
 
@@ -54,6 +55,7 @@ public class Book {
         this.price = price;
     }
 
+    //**********Getters**************
     public int getId() {
         return id;
     }
@@ -74,6 +76,23 @@ public class Book {
         return isbn;
     }
 
+    public String[] getFifteen(){
+        return fifteen;
+    }
+
+    public String[] getSixteen(){
+        return sixteen;
+    }
+
+    public String getFifteenString(){
+        return fifteenString;
+    }
+
+    public String getSixteenString(){
+        return sixteenString;
+    }
+
+    //**********Setters**************
     public void setId(int id) {
         this.id = id;
     }
@@ -106,36 +125,21 @@ public class Book {
         }
     }
 
-    public String[] getFifteen(){
-        return fifteen;
-    }
-
-    public String[] getSixteen(){
-        return sixteen;
-    }
-
+    //Set Fifteen Array from the string pulled from the database
     public void setFifteenArray(String fifteenString){
         System.out.println("fifteenString " + fifteenString);
         String[] dates = fifteenString.split("__,__");
         setFifteen(dates);
         setFifteenString(dates);
     }
-
+    //Set Sixteen Array from the string pulled from the database
     public void setSixteenArray(String sixteenString){
         System.out.println("sixteenString " + sixteenString);
         String[] dates = sixteenString.split("__,__");
         setSixteen(dates);
         setSixteenString(dates);
     }
-
-    public String getFifteenString(){
-        return fifteenString;
-    }
-
-    public String getSixteenString(){
-        return sixteenString;
-    }
-
+    //Set Fifteen String from the array to be saved to DB
     public String setFifteenString(String[] dates){
         String LIST_SEPARATOR = "__,__";
 
@@ -155,7 +159,7 @@ public class Book {
         return fifteenString;
 
     }
-
+    //Set Sixteen String from the array to be saved to DB
     public String setSixteenString(String[] dates){
         String LIST_SEPARATOR = "__,__";
 
@@ -204,6 +208,5 @@ public class Book {
         return "ID: " + id + "\nTitle: " + title + "\nAuthor: " + author +  "\nISBN: " + isbn +  "\nPrice: " + price +"\n\n\n" +
                getFifteenString() + "\n" + getSixteenString() +"\n";
     }
-
 
 }

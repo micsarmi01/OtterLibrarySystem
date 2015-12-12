@@ -32,7 +32,6 @@ public class CancelHold extends Activity implements View.OnClickListener, Adapte
     public int dropDay;
     public int transactionID;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //create a spinner with each transaction for the persons sign in
@@ -47,14 +46,17 @@ public class CancelHold extends Activity implements View.OnClickListener, Adapte
         //***GET PASSED INFO***
         Bundle extras= getIntent().getExtras();
         String loggedUser = extras.getString("username");
-        //PickUp
 
+
+        //Get All Transactions
         transactions = new ArrayList<>(db.getAllTransactions());
+        //Rentals belonging to the user
         userRentals = new ArrayList<>();
+        //Titles Strings for Spinner
         titles = new ArrayList<>();
 
+        //Go through each transaction and add to rentals and titles if it is active and is of type rental
         for(int i=0; i<transactions.size();i++){
-            System.out.println("TESTTEST typenumber: " +transactions.get(i).getTypeNumber());
             if(transactions.get(i).getUsername().equals(loggedUser)&&transactions.get(i).getTypeNumber()==1
                     && transactions.get(i).getActive()==1){
                 userRentals.add(new Transaction(transactions.get(i)));
@@ -62,11 +64,8 @@ public class CancelHold extends Activity implements View.OnClickListener, Adapte
             }
         }
 
-        System.out.println("TESTTEST match transactons: " + userRentals);
-
         //Transactions Spinner
         Spinner spinner = (Spinner) findViewById(R.id.transactions_spinner);
-
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> titleAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, titles );
         // Specify the layout to use when the list of choices appears
@@ -78,7 +77,6 @@ public class CancelHold extends Activity implements View.OnClickListener, Adapte
         if(userRentals.size()<=0){
             AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
             dlgAlert.setMessage("No Active Rentals For This User.\n Press ok to return to main menu!");
-            dlgAlert.setTitle("Otter Library System");
             dlgAlert.setPositiveButton("OK",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
@@ -89,10 +87,6 @@ public class CancelHold extends Activity implements View.OnClickListener, Adapte
             dlgAlert.setCancelable(true);
             dlgAlert.create().show();
         }
-
-
-
-
     }
 
     @Override
@@ -161,14 +155,11 @@ public class CancelHold extends Activity implements View.OnClickListener, Adapte
         }
     }
 
-
-
     @Override
     public void onNothingSelected(AdapterView<?> parentView) {
         // your code here
     }
-
-
+    
     public void onClick(View v) {
 
 
@@ -212,7 +203,6 @@ public class CancelHold extends Activity implements View.OnClickListener, Adapte
 
             AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
             dlgAlert.setMessage("Hold Has Been Canceled");
-            dlgAlert.setTitle("Otter Library System");
             dlgAlert.setPositiveButton("OK",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
@@ -222,9 +212,6 @@ public class CancelHold extends Activity implements View.OnClickListener, Adapte
                     });
             dlgAlert.setCancelable(true);
             dlgAlert.create().show();
-
         }
-
     }
-
 }

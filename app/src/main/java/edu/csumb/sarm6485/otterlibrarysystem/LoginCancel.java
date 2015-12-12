@@ -76,8 +76,6 @@ public class LoginCancel extends Activity implements View.OnClickListener {
                 User user = new User(input1, input2);
                 ArrayList<User> users = new ArrayList<User>(db.getAllUsers());
 
-
-
                 boolean contains = false;
 
                 for(int i=0; i<users.size();i++){
@@ -96,8 +94,6 @@ public class LoginCancel extends Activity implements View.OnClickListener {
                     }
 
                 }
-
-
 
                 if(contains) {
                     AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
