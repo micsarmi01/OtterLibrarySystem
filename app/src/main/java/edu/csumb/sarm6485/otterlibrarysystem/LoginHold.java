@@ -1,5 +1,11 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
-
+/**
+ * Title: LoginHold.java
+ * Abstract: This is the class for the ability to login for the place hold flow.
+ * Author: Michael Sarmiento
+ * ID: 7101
+ * Date: 12-11-2015
+ */
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -102,7 +108,7 @@ public class LoginHold extends Activity implements View.OnClickListener {
                     dlgAlert.setPositiveButton("OK",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent I = new Intent(getApplicationContext(), BookResults.class);
+                                    Intent I = new Intent(getApplicationContext(), Confirm.class);
 
                                     //GET AND SEND TO BOOK RESULTS
                                     //***GET PASSED INFO***
@@ -122,6 +128,9 @@ public class LoginHold extends Activity implements View.OnClickListener {
                                     String dropOffDay = extras.getString("dropOffDay");
                                     String dropOffHour = extras.getString("dropOffHour");
                                     String dropOffAmPm = extras.getString("dropOffAmPm");
+
+                                    String bookTitle = extras.getString("title");
+                                    double rentalTotal = extras.getDouble("rentalTotal");
 
                                     //***PASS INFO TO RESULTS***
                                     Bundle extraInfo = new Bundle();
@@ -144,6 +153,9 @@ public class LoginHold extends Activity implements View.OnClickListener {
                                     extraInfo.putInt("rentalHours", rentalHours);
                                     extraInfo.putString("username", loggedUsername );
                                     extraInfo.putInt("id", loggedId);
+                                    extraInfo.putString("title", bookTitle);
+                                    extraInfo.putDouble("rentalTotal", rentalTotal);
+
                                     I.putExtras(extraInfo);
 
                                     startActivity(I);
@@ -153,7 +165,7 @@ public class LoginHold extends Activity implements View.OnClickListener {
                     dlgAlert.create().show();
                 }
                 //Username or password incorrect
-                if(!contains) {
+                if (!contains) {
                     AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
                     dlgAlert.setMessage("Sorry The Account Does Not Exist or Passowrd Is Incorrect.");
                     dlgAlert.setPositiveButton("OK",
@@ -167,7 +179,7 @@ public class LoginHold extends Activity implements View.OnClickListener {
                 }
             }
             //Wrong Format
-            else{
+            else {
                 AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
                 dlgAlert.setMessage("Your Username or Password are not correctly formatted! Please Retry!");
                 dlgAlert.setPositiveButton("OK",

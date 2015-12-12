@@ -1,5 +1,11 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
-
+/**
+ * Title: LoginCancel.java
+ * Abstract: This is the class for the ability to log into the Cancel Hold flow.
+ * Author: Michael Sarmiento
+ * ID: 7101
+ * Date: 12-11-2015
+ */
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -67,20 +73,18 @@ public class LoginCancel extends Activity implements View.OnClickListener {
         cinput2 = (EditText) findViewById(R.id.password_field);
         input2 = cinput2.getText().toString();
 
-
-
         if (v.getId() == R.id.login_button) {
 
             if(checkFormat(input1)&&checkFormat(input2)) {
 
-                User user = new User(input1, input2);
+
                 ArrayList<User> users = new ArrayList<User>(db.getAllUsers());
 
                 boolean contains = false;
 
                 for(int i=0; i<users.size();i++){
 
-                    if(users.get(i).getUsername().equals(input1) && user.getPassword().equals(input2)){
+                    if(users.get(i).getUsername().equals(input1) && users.get(i).getPassword().equals(input2)){
 
                         contains=true;
                         if(contains){
@@ -98,14 +102,10 @@ public class LoginCancel extends Activity implements View.OnClickListener {
                 if(contains) {
                     AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
                     dlgAlert.setMessage("Successfully Logged in");
-                    dlgAlert.setTitle("Otter Library System");
                     dlgAlert.setPositiveButton("OK",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent I = new Intent(getApplicationContext(), CancelHold.class);
-
-
-
 
                                     //***PASS INFO TO RESULTS***
                                     Bundle extraInfo = new Bundle();
@@ -125,7 +125,6 @@ public class LoginCancel extends Activity implements View.OnClickListener {
                 if(!contains) {
                     AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
                     dlgAlert.setMessage("Sorry The Account Does Not Exist or Passowrd Is Incorrect.");
-                    dlgAlert.setTitle("Otter Library System");
                     dlgAlert.setPositiveButton("OK",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
@@ -139,7 +138,6 @@ public class LoginCancel extends Activity implements View.OnClickListener {
             else{
                 AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
                 dlgAlert.setMessage("Your Username or Password are not correctly formatted! Please Retry!");
-                dlgAlert.setTitle("Otter Library System");
                 dlgAlert.setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {

@@ -1,7 +1,11 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
 
 /**
- * Created by michaelsarmiento on 12/6/15.
+ * Title: AddBook.java
+ * Abstract: This is the class for the User Object. Users make rentals and are created at the CreateClass.java activity.
+ * Author: Michael Sarmiento
+ * ID: 7101
+ * Date: 12-11-2015
  */
 public class User {
     private String password;

@@ -1,5 +1,11 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
-
+/**
+ * Title: Date.java
+ * Abstract: This is the class for the Object Date.
+ * Author: Michael Sarmiento
+ * ID: 7101
+ * Date: 12-11-2015
+ */
 public class Date {
     String day;
     String month;

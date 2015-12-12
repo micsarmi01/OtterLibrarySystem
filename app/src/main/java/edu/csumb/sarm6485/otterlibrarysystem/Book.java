@@ -1,5 +1,12 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
 
+/**
+ * Title: Book.java
+ * Abstract: This is the class for the book object.
+ * Author: Michael Sarmiento
+ * ID: 7101
+ * Date: 12-11-2015
+ */
 public class Book {
 
     private int id;

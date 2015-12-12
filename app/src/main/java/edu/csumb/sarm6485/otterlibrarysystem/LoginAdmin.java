@@ -1,5 +1,11 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
-
+/**
+ * Title: AddBook.java
+ * Abstract: This is the class for the ability/activity to Login to the System Management.
+ * Author: Michael Sarmiento
+ * ID: 7101
+ * Date: 12-11-2015
+ */
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;

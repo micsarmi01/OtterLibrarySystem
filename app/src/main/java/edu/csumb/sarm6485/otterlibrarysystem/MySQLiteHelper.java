@@ -1,5 +1,11 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
-
+/**
+ * Title: MySqLiteHelper.java
+ * Abstract: The Methods inorder to CRUD the database for this application.
+ * Author: Michael Sarmiento
+ * ID: 7101
+ * Date: 12-11-2015
+ */
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -44,6 +50,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_ACTIVE = "active";
     private static final String KEY_PICKDAYYEAR = "pickdayyear";
     private static final String KEY_DROPDAYYEAR = "dropdayyear";
+    private static final String KEY_RESERVATION = "reservation";
 
     // Database Version
     private static final int DATABASE_VERSION = 1;
@@ -86,7 +93,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 "active INTEGER, " +
                 "typenumber INTEGER, " +
                 "pickdayyear INTEGER, " +
-                "dropdayyear INTEGER)";
+                "dropdayyear INTEGER, "+
+                "reservation INTEGER)";
 
         // execute an SQL statement to create the table
         db.execSQL(CREATE_BOOK_TABLE);
@@ -307,7 +315,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_TYPENUMBER, transaction.getTypeNumber());
         values.put(KEY_PICKDAYYEAR, transaction.getPickDayYear());
         values.put(KEY_DROPDAYYEAR, transaction.getDropDayYear());
-
+        values.put(KEY_RESERVATION, transaction.getReservation());
 
 
         // 3. insert to table
@@ -372,7 +380,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 transaction.setTypeNumber(Integer.parseInt(cursor.getString(10)));
                 transaction.setPickDayYear(Integer.parseInt(cursor.getString(11)));
                 transaction.setDropDayYear(Integer.parseInt(cursor.getString(12)));
-
+                transaction.setReservation(Integer.parseInt(cursor.getString(13)));
 
                 // Add book to books
                 transactions.add(transaction);
@@ -409,6 +417,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_TYPENUMBER, transaction.getTypeNumber());
         values.put(KEY_PICKDAYYEAR, transaction.getPickDayYear());
         values.put(KEY_DROPDAYYEAR, transaction.getDropDayYear());
+        values.put(KEY_RESERVATION, transaction.getReservation());
 
         // 3. updating row
         int i = db.update(TABLE_TRANSACTIONS, //table

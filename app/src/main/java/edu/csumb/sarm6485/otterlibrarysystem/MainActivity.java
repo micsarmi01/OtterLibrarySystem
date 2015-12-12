@@ -1,5 +1,13 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
 
+/**
+ * Title: MainActivity.java
+ * Abstract: This program allows users to Place a reservation at the CSUMB Library.
+ * Author: Michael Sarmiento
+ * ID: 7101
+ * Date: 12-11-2015
+ */
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

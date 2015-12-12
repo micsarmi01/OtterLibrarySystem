@@ -1,5 +1,11 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
-
+/**
+ * Title: PlaceHold.java
+ * Abstract: This is the class for the ability to choose the pickupdate for the rental
+ * Author: Michael Sarmiento
+ * ID: 7101
+ * Date: 12-11-2015
+ */
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;

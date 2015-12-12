@@ -1,5 +1,11 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
-
+/**
+ * Title: Confirm.java
+ * Abstract: This is the class for the ability and activity to confirm the information in a users rental
+ * Author: Michael Sarmiento
+ * ID: 7101
+ * Date: 12-11-2015
+ */
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,9 +25,11 @@ import java.util.List;
 
 public class Confirm extends Activity implements View.OnClickListener {
 
+    int reservation = 0;
+
     // create a database for the app
     MySQLiteHelper db = new MySQLiteHelper(this);
-    int reservationNumber = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +38,7 @@ public class Confirm extends Activity implements View.OnClickListener {
         //Reservations counter
         ArrayList<Transaction> transactions = new ArrayList<>(db.getAllTransactions());
         for(Transaction transaction : transactions){
-            if(transaction.getTypeNumber()==1){reservationNumber++;}
+            if(transaction.getTypeNumber()==1){reservation++;}
         }
 
         View test = findViewById(R.id.confirm_button);
@@ -72,7 +80,7 @@ public class Confirm extends Activity implements View.OnClickListener {
         main.append("Pick Up/Date Time: " + pickUpDateTime + " \n");
         main.append("Return/Date Time: " + dropOffDateTime + " \n");
         main.append("Book Title: " + bookTitle + " \n");
-        main.append("Reservation Number: " + reservationNumber + " \n");
+        main.append("Reservation Number: " + (reservation+1) + " \n");
         main.append("Total Rental Cost: " + formatter.format(rentalTotal) + " \n");
     }
 
@@ -165,7 +173,7 @@ public class Confirm extends Activity implements View.OnClickListener {
             TimeStamp timeStamp = new TimeStamp();
             //Create a new transaction
             Transaction transaction = new Transaction(loggedUsername, 1, rentalTotal, bookTitle, timeStamp.getDate(),
-                    timeStamp.getTime(), pickUpDateTime, dropOffDateTime, pickUpDayOfYear, dropOffDayOfYear);
+                    timeStamp.getTime(), pickUpDateTime, dropOffDateTime, pickUpDayOfYear, dropOffDayOfYear, (reservation+1));
             //System.out.println("TESTTESTTEST" + transaction.toString() + "USER: " + transaction.getUsername());
 
             //add transaction

@@ -25,6 +25,8 @@ public class Transaction {
     private int active;
     private int pickDayYear;
     private int dropDayYear;
+    private int reservation=0;
+
 
     NumberFormat formatter = NumberFormat.getCurrencyInstance();
 
@@ -47,12 +49,13 @@ public class Transaction {
         this.active=transaction.active;
         this.dropDayYear=transaction.dropDayYear;
         this.pickDayYear=transaction.pickDayYear;
+        this.reservation=transaction.reservation;
 
 
     }
     //constructor for book rental
     public Transaction(String username, int type, double rentalCost, String title, String date,
-                                String time, String pickUpDate, String dropOffDate, int pickDayYear, int dropDayYear){
+                                String time, String pickUpDate, String dropOffDate, int pickDayYear, int dropDayYear,int reservation){
 
         this.username = username;
         this.type = type;
@@ -65,6 +68,7 @@ public class Transaction {
         this.active=1;
         this.pickDayYear = pickDayYear;
         this.dropDayYear=dropDayYear;
+        this.reservation=reservation;
 
         if(type==1){
             typePrint = "Rental" + "(" + formatter.format(rentalCost) + ")";
@@ -94,12 +98,14 @@ public class Transaction {
         }
     }
 
+
     public String toString(){
         return "Transaction: - Username: " + username + " Type:" + typePrint +" "+ date +", "+ time +" Active: " + active;
     }
 
 
     //**********Getters****************
+    public int getReservation(){return reservation;}
     public int getPickDayYear(){return pickDayYear;}
     public int getDropDayYear(){return dropDayYear;}
     public int getActive(){return active;}
@@ -142,6 +148,7 @@ public class Transaction {
     }
 
     //*************Setters***************
+    public void setReservation(int reservation){this.reservation=reservation;}
     public void setDropDayYear(int dropDayYear){
         this.dropDayYear=dropDayYear;
     }

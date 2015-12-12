@@ -1,7 +1,11 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
 
 /**
- * Created by michaelsarmiento on 12/7/15.
+ * Title: Time.java
+ * Abstract: This is the class for the Time Object.
+ * Author: Michael Sarmiento
+ * ID: 7101
+ * Date: 12-11-2015
  */
 public class Time {
     int hour;

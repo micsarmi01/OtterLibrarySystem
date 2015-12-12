@@ -1,5 +1,11 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
-
+/**
+ * Title: Log.java
+ * Abstract: This is the class for the ability to retreive all Transaction objects: Rental, Cancel, Creation of Account.
+ * Author: Michael Sarmiento
+ * ID: 7101
+ * Date: 12-11-2015
+ */
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,32 +33,34 @@ public class Log extends Activity implements View.OnClickListener {
 
         TextView main = (TextView) findViewById(R.id.maininventory);
 
+        View mainButton = findViewById(R.id.main_button);
+        mainButton.setOnClickListener(this);
+        mainButton.bringToFront();
+
         ArrayList<Transaction> transactions = new ArrayList<>(db.getAllTransactions());
 
         for(Transaction transaction: transactions){
 
-            if(transaction.getTypeNumber()==1) {
+            if(transaction.getTypeNumber()==1||transaction.getTypeNumber()==2) {
                 main.append("\n\nTransaction Number: " + transaction.getId());
-                main.append("\nUsername: " + transaction.getUsername());
-                main.append("\nTransaction Type: " + transaction.getType());
-                main.append("\nBook Title: " + transaction.getTitle());
-                main.append("\nPick Up: " + transaction.getPickUpDate());
-                main.append("\nReturn: " + transaction.getDropOffDate());
-                main.append("\nTransaction Date: " + transaction.getDate());
-                main.append("\nTransaction Time: " + transaction.getTime());
+                main.append("\n     Reservation Number: " + transaction.getReservation());
+                main.append("\n     Username: " + transaction.getUsername());
+                main.append("\n     Transaction Type: " + transaction.getType());
+                main.append("\n     Book Title: " + transaction.getTitle());
+                main.append("\n     Pick Up: " + transaction.getPickUpDate());
+                main.append("\n     Return: " + transaction.getDropOffDate());
+                main.append("\n     Transaction Date: " + transaction.getDate());
+                main.append("\n     Transaction Time: " + transaction.getTime());
             }
             else{
                 main.append("\n\nTransaction Number: " + transaction.getId());
-                main.append("\nUsername: " + transaction.getUsername());
-                main.append("\nTransaction Type: " + transaction.getType());
-                main.append("\nTransaction Date: " + transaction.getDate());
-                main.append("\nTransaction Time: " + transaction.getTime());
+                main.append("\n     Username: " + transaction.getUsername());
+                main.append("\n     Transaction Type: " + transaction.getType());
+                main.append("\n     Transaction Date: " + transaction.getDate());
+                main.append("\n     Transaction Time: " + transaction.getTime());
             }
         }
-
         db.getAllBooks();
-
-
     }
 
     @Override
@@ -78,9 +86,10 @@ public class Log extends Activity implements View.OnClickListener {
     }
 
     public void onClick(View v) {
-
-
-
+        if (v.getId() == R.id.main_button) {
+            Intent I = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(I);
+        }
     }
 
 }

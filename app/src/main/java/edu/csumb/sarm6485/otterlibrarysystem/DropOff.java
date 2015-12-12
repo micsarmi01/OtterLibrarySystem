@@ -1,5 +1,11 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
-
+/**
+ * Title: DropOff.java
+ * Abstract: This is the class for the ability for a user to choose the date of the return of the item.
+ * Author: Michael Sarmiento
+ * ID: 7101
+ * Date: 12-11-2015
+ */
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -249,7 +255,7 @@ public class DropOff extends Activity implements View.OnClickListener, AdapterVi
                         System.out.println("choice This is the difference: you are in success " + difference);
 
                         //if difference and time are good go to bookResults
-                        Intent I = new Intent(getApplicationContext(), LoginHold.class);
+                        Intent I = new Intent(getApplicationContext(), BookResults.class);
 
                         //Get How many rental hours for this transaction
                         int rentalHours = rentalHours(difference,pickHour,dropOffHour);

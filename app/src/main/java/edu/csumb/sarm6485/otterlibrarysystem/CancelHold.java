@@ -1,5 +1,11 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
-
+/**
+ * Title: CancelHold.java
+ * Abstract: This is the class for the ability to cancel a hold placed in the system.
+ * Author: Michael Sarmiento
+ * ID: 7101
+ * Date: 12-11-2015
+ */
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -31,6 +37,7 @@ public class CancelHold extends Activity implements View.OnClickListener, Adapte
     public int pickUpDay;
     public int dropDay;
     public int transactionID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,8 +138,7 @@ public class CancelHold extends Activity implements View.OnClickListener, Adapte
                     TextView main = (TextView) findViewById(R.id.mainText);
 
                     main.setText("");
-
-                    main.append("Transaction Number: " + userRentals.get(i).getId() + "\n");
+                    main.append("Reservation Number: " + userRentals.get(i).getReservation() + "\n");
                     main.append("Title: " + userRentals.get(i).getTitle() + "\n");
                     main.append(userRentals.get(i).getType()+"\n");
                     main.append("Date: " + userRentals.get(i).getDate() + "\n");
@@ -149,7 +155,6 @@ public class CancelHold extends Activity implements View.OnClickListener, Adapte
                     //db.updateTransaction(new Transaction(userRentals.get(i)));
 
                     transactionID = userRentals.get(i).getId();
-
                 }
             }
         }
@@ -159,10 +164,8 @@ public class CancelHold extends Activity implements View.OnClickListener, Adapte
     public void onNothingSelected(AdapterView<?> parentView) {
         // your code here
     }
-    
+
     public void onClick(View v) {
-
-
 
         if (v.getId() == R.id.cancel) {
 
@@ -183,6 +186,7 @@ public class CancelHold extends Activity implements View.OnClickListener, Adapte
                     books.get(i).setFifteen(fifteen);
                     books.get(i).setFifteenString(fifteen);
 
+
                     db.updateBook(books.get(i));
                 }
             }
@@ -193,14 +197,17 @@ public class CancelHold extends Activity implements View.OnClickListener, Adapte
                     db.updateTransaction(new Transaction(transactions.get(i)));
                     TimeStamp timeStamp = new TimeStamp();
 
-                    Transaction transactionNew = new Transaction(transactions.get(i).getUsername(),2, timeStamp.getDate(), timeStamp.getTime());
-                    db.addTransaction(transactionNew);
+
+                    Transaction transaction = new Transaction(transactions.get(i).getUsername(), 2,
+                            transactions.get(i).getRentalCost(), transactions.get(i).getTitle(), timeStamp.getDate(),
+                            timeStamp.getTime(), transactions.get(i).getPickUpDate(), transactions.get(i).getDropOffDate(),
+                            transactions.get(i).getPickDayYear(),transactions.get(i).getDropDayYear(),transactions.get(i).getReservation());
+
+                    db.addTransaction(transaction);
                 }
             }
 
             //update the transaction to be 0
-
-
             AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
             dlgAlert.setMessage("Hold Has Been Canceled");
             dlgAlert.setPositiveButton("OK",

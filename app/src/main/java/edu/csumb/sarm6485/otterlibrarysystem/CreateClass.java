@@ -1,5 +1,11 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
-
+/**
+ * Title: CreateClass.java
+ * Abstract: This is the class for the ability to add a user to the system.
+ * Author: Michael Sarmiento
+ * ID: 7101
+ * Date: 12-11-2015
+ */
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -74,7 +80,7 @@ public class CreateClass extends Activity implements View.OnClickListener {
             //Successful Attempt at making a username
             if(checkFormat(input1)&&checkFormat(input2)&&userDuplicateCheck(input1)) {
                 //Create a new user using the inputs
-                User user = new User(input1, input2);
+                User user = new User(input2, input1);
                 db.addUser(user);
 
                 //Create a timestamp

@@ -1,5 +1,11 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
-
+/**
+ * Title: ManageSystem.java
+ * Abstract: This is the class for the ability/activity to access the different abilities of the Librarian/admin
+ * Author: Michael Sarmiento
+ * ID: 7101
+ * Date: 12-11-2015
+ */
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

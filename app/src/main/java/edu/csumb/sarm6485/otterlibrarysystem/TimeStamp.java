@@ -3,7 +3,11 @@ package edu.csumb.sarm6485.otterlibrarysystem;
 import java.util.Calendar;
 
 /**
- * Created by michaelsarmiento on 12/9/15.
+ * Title: TimeStamp.java
+ * Abstract: This is the class for the ability to generate a timestamp object.
+ * Author: Michael Sarmiento
+ * ID: 7101
+ * Date: 12-11-2015
  */
 public class TimeStamp {
     private String date;

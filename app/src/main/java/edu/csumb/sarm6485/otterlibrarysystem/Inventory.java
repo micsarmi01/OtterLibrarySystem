@@ -1,5 +1,11 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
-
+/**
+ * Title: Inventory.java
+ * Abstract: This is the class for the ability to view all books in the inventory at the library.
+ * Author: Michael Sarmiento
+ * ID: 7101
+ * Date: 12-11-2015
+ */
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +30,10 @@ public class Inventory extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inventory);
+
+        View mainButton = findViewById(R.id.main_button);
+        mainButton.setOnClickListener(this);
+        mainButton.bringToFront();
 
         TextView main = (TextView) findViewById(R.id.maininventory);
 
@@ -61,7 +71,10 @@ public class Inventory extends Activity implements View.OnClickListener {
     }
 
     public void onClick(View v) {
-
+        if (v.getId() == R.id.main_button) {
+            Intent I = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(I);
+        }
 
 
     }

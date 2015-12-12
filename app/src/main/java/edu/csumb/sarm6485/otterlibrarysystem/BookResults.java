@@ -1,5 +1,12 @@
 package edu.csumb.sarm6485.otterlibrarysystem;
-
+/**
+ * Title: AddBook.java
+ * Abstract: This is the class for the ability and activity to View the results of a date inquiry and the result are
+ * books available
+ * Author: Michael Sarmiento
+ * ID: 7101
+ * Date: 12-11-2015
+ */
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -106,7 +113,7 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
             AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
             dlgAlert.setMessage("No Books Available for Dates and/or Timeframe.\n Press ok to return to main menu!");
             dlgAlert.setTitle("Otter Library System");
-            dlgAlert.setPositiveButton("OK",
+            dlgAlert.setPositiveButton("Exit",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             Intent I = new Intent(getApplicationContext(), MainActivity.class);
@@ -210,7 +217,7 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
             Spinner spinner = (Spinner) findViewById(R.id.book_spinner);
             String bookTitle = spinner.getSelectedItem().toString();
 
-            Intent I = new Intent(getApplicationContext(), Confirm.class);
+            Intent I = new Intent(getApplicationContext(), LoginHold.class);
 
             //***GET PASSED INFO***
             Bundle extras= getIntent().getExtras();
@@ -259,8 +266,6 @@ public class BookResults extends Activity implements View.OnClickListener, Adapt
             extraInfo.putString("dropOffAmPm", dropOffAmPm);
 
             //transaction stuff
-            extraInfo.putString("username", loggedUsername);
-            extraInfo.putInt("id", loggedId);
             extraInfo.putString("title", bookTitle);
             extraInfo.putDouble("rentalTotal", rentalTotal);
 
